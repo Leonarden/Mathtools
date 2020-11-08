@@ -4,9 +4,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
+/**
+ * 
+ * @author david
+ *
+ *A StatDataTable  represents a Sample from a Population
+ *Sample.type = "Control"; or "Target"; or "Randomi" for those
+ *randomly created  mixing randomly "control" and "target"
+ *This last process will allow us to determine if the values obtained
+ * were due to luck or are genuine and valid.
+ *
+ */
 public class StatDataTable {
-    /* will contain the table of frequencies */
+    
+	/*Type of sample*/
+	private String type = "";
+	/* will contain the table of frequencies */
 	private SortedMap<Double,StatDataTableRow> dataTable;
 	/* min difference between to values that will become key*/
 	private  Double deltaError;
@@ -17,6 +30,58 @@ public class StatDataTable {
 		deltaError = 0.00199999;
 		dataTable = new TreeMap<Double,StatDataTableRow>();
 	}
+
+
+	
+	
+	
+	public String getType() {
+		return type;
+	}
+
+
+
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
+
+
+
+	public SortedMap<Double, StatDataTableRow> getDataTable() {
+		return dataTable;
+	}
+
+
+
+
+
+	public void setDataTable(SortedMap<Double, StatDataTableRow> dataTable) {
+		this.dataTable = dataTable;
+	}
+
+
+
+
+
+	public Double getDeltaError() {
+		return deltaError;
+	}
+
+
+
+
+
+	public void setDeltaError(Double deltaError) {
+		this.deltaError = deltaError;
+	}
+
+
+
+
 
 	/**
 	 * 
@@ -111,6 +176,7 @@ public void setDataTableValue(Double d) {
 	
 }
 	
+
 
 
 

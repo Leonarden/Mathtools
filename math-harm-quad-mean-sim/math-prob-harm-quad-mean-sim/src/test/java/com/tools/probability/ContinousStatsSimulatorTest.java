@@ -40,7 +40,7 @@ public class ContinousStatsSimulatorTest
     {
          List<StatDataTable> dataTablesList = null;
     	
-    	GenerateSimulationData<Double> gsd = new GenerateSimulationData<Double>();
+    	GenerateStatData<Double> gsd = new GenerateStatData<Double>();
     	gsd.setLengthOfLists(10);
     	gsd.setNumOfLists(1);
     	gsd.setNumOfDigits(2);

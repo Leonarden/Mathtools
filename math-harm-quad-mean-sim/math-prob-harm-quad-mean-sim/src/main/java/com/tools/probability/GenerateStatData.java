@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class GenerateSimulationData<Double> {
+public class GenerateStatData<Double> {
 	
 	private List<StatDataTable> dataTableList;
 
@@ -14,7 +14,7 @@ public class GenerateSimulationData<Double> {
 	private int lengthOfLists = 0;
 	
 	private int numOfDigits = 0;
-	public GenerateSimulationData() {
+	public GenerateStatData() {
 		dataTableList = new LinkedList<StatDataTable>();
 	}
 	
