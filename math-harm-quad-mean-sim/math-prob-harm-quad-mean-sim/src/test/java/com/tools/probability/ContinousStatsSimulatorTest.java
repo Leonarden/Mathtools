@@ -38,7 +38,7 @@ public class ContinousStatsSimulatorTest
      */
     public void testApp()
     {
-         List<StatDataTable> dataTablesList = null;
+         List<StatDataTable<Double,String>> dataTablesList = null;
     	
     	GenerateStatData<Double> gsd = new GenerateStatData<Double>();
     	gsd.setLengthOfLists(10);
@@ -48,7 +48,7 @@ public class ContinousStatsSimulatorTest
     	try {
     		gsd.generateDataTablesList();
  
-    		dataTablesList = gsd.getDataTableList();
+    		dataTablesList = ( List ) gsd.getDataTableList();
     		
     		assertTrue(dataTablesList.size()>0);
     		

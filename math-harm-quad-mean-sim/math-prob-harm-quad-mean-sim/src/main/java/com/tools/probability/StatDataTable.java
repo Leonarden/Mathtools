@@ -15,20 +15,27 @@ import java.util.TreeMap;
  * were due to luck or are genuine and valid.
  *
  */
-public class StatDataTable {
+public class StatDataTable<N extends Number,T> {
     
 	/*Type of sample*/
 	private String type = "";
 	/* will contain the table of frequencies */
-	private SortedMap<Double,StatDataTableRow> dataTable;
+	private SortedMap<N,StatDataTableRow<N,T>> dataTable;
 	/* min difference between to values that will become key*/
-	private  Double deltaError;
-    /*Arithmetic mean*/
+	private  Double deltaError = 0.001;
+    
+	private Double sumiValxFrequRel = 0.0;
+    
+    private Double sumiValpow2xFrequRel = 0.0;
+	
+	
+	
+	/*Arithmetic mean*/
 	private Double aMean;
 	
 	public StatDataTable() {
-		deltaError = 0.00199999;
-		dataTable = new TreeMap<Double,StatDataTableRow>();
+	
+		dataTable = new TreeMap<N,StatDataTableRow<N,T>>();
 	}
 
 
@@ -51,7 +58,7 @@ public class StatDataTable {
 
 
 
-	public SortedMap<Double, StatDataTableRow> getDataTable() {
+	public SortedMap<N, StatDataTableRow<N,T>> getDataTable() {
 		return dataTable;
 	}
 
@@ -59,7 +66,7 @@ public class StatDataTable {
 
 
 
-	public void setDataTable(SortedMap<Double, StatDataTableRow> dataTable) {
+	public void setDataTable(SortedMap<N, StatDataTableRow<N,T>> dataTable) {
 		this.dataTable = dataTable;
 	}
 
@@ -89,10 +96,10 @@ public class StatDataTable {
 	 * 
 	 * @throws Exception
 	 */
-	public List<Double> getDataTableValues() throws Exception{
-		List<Double> dtList = new LinkedList<Double>();
+	public List<N> getDataTableValues() throws Exception{
+		List<N> dtList = new LinkedList<N>();
 		int cnt = 0;
-		for(Double d:dataTable.keySet()) {
+		for(N d:dataTable.keySet()) {
 			StatDataTableRow sdr = dataTable.get(d);
 			
 			for(int j =0;j<sdr.getAbsoluteFreq();j++) { //Absolute freq must at leat be 1 or higher
@@ -111,9 +118,9 @@ public class StatDataTable {
 	 * @param value
 	 * @return
 	 */
-	public StatDataTableRow getDataTableRow(Double value)  {
+	public StatDataTableRow<N,T> getDataTableRow(N value)  {
 		
-		StatDataTableRow sdr =this.dataTable.get(value);
+		StatDataTableRow<N,T> sdr =this.dataTable.get(value);
 		//check if value is inside record sdr.getValue()==value
 		return sdr;
 	}
@@ -124,10 +131,10 @@ public class StatDataTable {
  * @param values
  * @throws Exception
  */
-	public void setDataTableValues(List<Double> values) throws Exception {
-		Double d = 0.0;
+	public void setDataTableValues(List<?> values) throws Exception {
+		N d;
 		for(int i=0;i<values.size();i++) {
-			d = (Double)values.get(i);
+			d = (N)values.get(i);
 			setDataTableValue(d);
 		}
 		
@@ -136,18 +143,18 @@ public class StatDataTable {
  * 
  * @param d
  */
-public void setDataTableValue(Double d) {
-	StatDataTableRow sdr = null;
+public void setDataTableValue(N d) {
+	StatDataTableRow<N,T> sdr = null;
    	Double nme = 0.0; //number minus tolerated error
 	boolean isNk = false; //is new key
 	
 	sdr = dataTable.get(d);
 	
 	if(sdr==null) {
-	    if(d<0)
-		nme = (d + deltaError);
-	    else if(d>0)
-	    nme = (d - deltaError);
+	    if(d.doubleValue()< 0)
+		nme = Math.abs(d.doubleValue() + deltaError.doubleValue());
+	    else if(d.doubleValue()>0)
+	    nme = Math.abs(d.doubleValue() - deltaError.doubleValue());
 	
 	    sdr = dataTable.get(nme);
 
@@ -159,7 +166,7 @@ public void setDataTableValue(Double d) {
 		sdr.setValue(d);
 		
 	    }else {
-	    	d = nme;
+	    	d = (N) nme;
 	    }
 	}
 	
