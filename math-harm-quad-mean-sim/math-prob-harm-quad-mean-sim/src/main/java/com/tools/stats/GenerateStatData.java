@@ -1,4 +1,4 @@
-package com.tools.probability;
+package com.tools.stats;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -70,11 +70,12 @@ public class GenerateStatData<Double> {
 	public List<Double> generateRandValues(List vlist){
 		
 		Integer seed=null;
-		String str ="";
-		Random random = new Random(1);
+		String str ="",digit="";
+		Random random = new Random(10);
 		try {
 			for(int i=0;i<this.numOfDigits;i++) {
-				str = str + Math.abs((random.nextInt()));
+				digit = "" +Math.abs((random.nextInt()));
+				str = str + digit.charAt(0);
 				
 			}
 		

@@ -1,4 +1,4 @@
-package com.tools.probability;
+package com.tools.stats;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,9 +7,14 @@ import java.util.List;
  * 
  * @author david
  *
- *We want to represent a row associated to a "key" in a 
- *HashMap that will contain the value as 
- *
+ *We want to represent a row of the table of frequencies associated to the numeric value that is
+ *effectively the key in a HashMap Key:0.23 ->DataTableRow->
+ *index: if necessary
+ *absoluteFreq: Number of times that "key" appears repeated into sample
+ *rowSample: (optional) Contains the elements of sample that are associated to the key value
+ *relativeFreq:
+ * 
+ * T is the generic type with which we want to calculate statistics
  */
 public class StatDataTableRow<N extends Number,T> {
 	private Integer index = 0;
@@ -36,10 +41,10 @@ public class StatDataTableRow<N extends Number,T> {
 	 */
 	private Double v2XrelativeFreq = 0.0;
 	
-	/* sum of absoluteFreq from 0 to currentRow */
+	/* sum of absoluteFreq  in the HashMap to currentRow */
 	private  Integer accFreq = 0;
 	
-	/* sum of relativeFreq from 0 to currentRow */
+	/* sum of relativeFreq from first value in the HashMap to currentRow */
 	private Double accRelativeFreq = 0.0;
 	
 	public Integer getIndex() {

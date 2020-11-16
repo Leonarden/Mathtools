@@ -1,4 +1,4 @@
-package com.tools.probability;
+package com.tools.stats;
 
 import java.util.List;
 

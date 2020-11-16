@@ -1,15 +1,23 @@
-package com.tools.probability;
+package com.tools.stats;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import org.apache.commons.math3.stat.descriptive.rank.Median;
+
+import com.tools.stats.compute.AbstractMath;
+import com.tools.stats.compute.GeometricMath;
+import com.tools.stats.compute.StandardMath;
 /**
  * 
  * @author david
  *
  *A StatDataTable  represents a Sample from a Population
- *Sample.type = "Control"; or "Target"; or "Randomi" for those
+ *Sample.type = "Control"; or "Target"; or "Randomized" for those
  *randomly created  mixing randomly "control" and "target"
  *This last process will allow us to determine if the values obtained
  * were due to luck or are genuine and valid.
@@ -23,15 +31,24 @@ public class StatDataTable<N extends Number,T> {
 	private SortedMap<N,StatDataTableRow<N,T>> dataTable;
 	/* min difference between to values that will become key*/
 	private  Double deltaError = 0.001;
-    
-	private Double sumiValxFrequRel = 0.0;
-    
-    private Double sumiValpow2xFrequRel = 0.0;
-	
-	
+	/* Momentum for geometric Mean */
+	private int momentum = 2;
+	/* Flag that indicates if table has generated its statistics */
+	private boolean statistics = false;
 	
 	/*Arithmetic mean*/
-	private Double aMean;
+	private Double arithMean;
+	/*Median */
+	private Double median;
+	/*Harmonic mean */
+	private Double harmMean;
+	/*  geometric mean  */
+    private Double geomMean = 0.0;
+	
+	
+    
+	/**/
+	private AbstractMath statCalc = null;
 	
 	public StatDataTable() {
 	
@@ -90,6 +107,76 @@ public class StatDataTable<N extends Number,T> {
 
 
 
+	public boolean isStatistics() {
+		return statistics;
+	}
+
+
+
+
+
+	public void setStatistics(boolean statistics) {
+		this.statistics = statistics;
+	}
+
+
+
+
+
+
+	/**
+	 * Computes all statistic parameters, aMean, Quadratic mean,.
+	 */
+
+
+	public int computeStats() throws Exception {
+		List<N> dataSet = null;
+        try {
+    	   	
+    		dataSet = this.getDataTableValues();
+    		this.median = this.computeMedian(dataSet);
+    		//Arithmetic mean
+    		statCalc = new StandardMath();
+    		this.arithMean = statCalc.computeMean((List<Double>) dataSet);
+    		//Harmonic mean
+    		this.harmMean = statCalc.computeHarmonicMean((List<Double>) dataSet);
+    		//Geometric mean
+    		
+    		statCalc = new GeometricMath(this.momentum); 
+    		this.geomMean = statCalc.computeMean((List<Double>) dataSet);
+    		/*
+    		dataSet = new ArrayList<Double>();
+    		dataSet.add(mH); dataSet.add(mG);
+    		
+    		mXGH =  stdMath.computeMean(dataSet);
+    	   */
+    		statistics = true;
+    		return 0;
+        }catch(Exception ex) {
+        	ex.printStackTrace();
+    
+        }
+		return 1;   
+	
+	}
+	
+	/*
+	 * 
+	 */
+	private Double computeMedian(List<N> dataSet) throws Exception {
+ 		//median
+		Double d = null;
+		double arr[] = new double[dataSet.size()];
+		for(int i=0;i<dataSet.size();i++) {
+			d = (Double) dataSet.get(i);
+			arr[i] = d.doubleValue();
+		}
+		Median median = new Median();
+		
+		return median.evaluate(arr);
+
+	}
+	
 	/**
 	 * 
 	 * @return List of key numbers that correspond to the original numeric input sample 
