@@ -8,6 +8,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.math3.stat.descriptive.rank.Median;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.tools.stats.compute.AbstractMath;
 import com.tools.stats.compute.GeometricMath;
@@ -24,7 +26,9 @@ import com.tools.stats.compute.StandardMath;
  *
  */
 public class StatDataTable<N extends Number,T> {
-    
+	
+	private static Logger log = LogManager.getLogger(StatDataTable.class.getCanonicalName());
+	
 	/*Type of sample*/
 	private String type = "";
 	/* will contain the table of frequencies */
@@ -119,6 +123,86 @@ public class StatDataTable<N extends Number,T> {
 		this.statistics = statistics;
 	}
 
+
+
+
+
+
+	public int getMomentum() {
+		return momentum;
+	}
+
+
+
+
+
+	public void setMomentum(int momentum) {
+		this.momentum = momentum;
+	}
+
+
+
+
+
+	public Double getArithMean() {
+		return arithMean;
+	}
+
+
+
+
+
+	public void setArithMean(Double arithMean) {
+		this.arithMean = arithMean;
+	}
+
+
+
+
+
+	public Double getMedian() {
+		return median;
+	}
+
+
+
+
+
+	public void setMedian(Double median) {
+		this.median = median;
+	}
+
+
+
+
+
+	public Double getHarmMean() {
+		return harmMean;
+	}
+
+
+
+
+
+	public void setHarmMean(Double harmMean) {
+		this.harmMean = harmMean;
+	}
+
+
+
+
+
+	public Double getGeomMean() {
+		return geomMean;
+	}
+
+
+
+
+
+	public void setGeomMean(Double geomMean) {
+		this.geomMean = geomMean;
+	}
 
 
 

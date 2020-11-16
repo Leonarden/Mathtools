@@ -3,6 +3,9 @@ package com.tools.stats;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * 
  * @author david
@@ -17,6 +20,10 @@ import java.util.List;
  * T is the generic type with which we want to calculate statistics
  */
 public class StatDataTableRow<N extends Number,T> {
+	
+	private static Logger log = LogManager.getLogger(StatDataTableRow.class.getCanonicalName());
+	
+	
 	private Integer index = 0;
 	/* if it's necessary store value, so that we will have key==value */
 	private N value = null;
