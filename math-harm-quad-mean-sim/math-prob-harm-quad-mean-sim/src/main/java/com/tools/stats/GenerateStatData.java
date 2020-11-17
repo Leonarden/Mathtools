@@ -112,12 +112,12 @@ public class GenerateStatData<N extends Number> {
 		Integer seed;
 		String str ="",digit="";
 		
-		Random random = new Random(10);
-		/*
+		Random random = new Random();
+		
 		
 		try {
 			for(int i=0;i<this.numOfDigits;i++) {
-				digit = "" +Math.abs((random.nextInt()));
+				digit = "" +random.nextInt(this.numOfDigits+1);
 				str = str + digit.charAt(0);
 				
 			}
@@ -125,14 +125,15 @@ public class GenerateStatData<N extends Number> {
 		  seed = Integer.valueOf(str);
 			
 		}catch(NumberFormatException ife) {
-			seed = 10+ (int) Math.abs((random.nextInt()));
+			seed = random.nextInt(10);
 		}
-		*/
-		random = new Random(this.numOfDigits);
+		
+		random = new Random(seed);
 		
 		
 		for(int i=0; i< this.lengthOfLists;i++) {
-			double sd = random.nextDouble();
+			double sd = (10*(this.numOfDigits+1)*random.nextInt(this.numOfDigits+1)* random.nextDouble());
+			sd = Math.floor(sd);
 			vlist.add(i,sd);
 			
 			

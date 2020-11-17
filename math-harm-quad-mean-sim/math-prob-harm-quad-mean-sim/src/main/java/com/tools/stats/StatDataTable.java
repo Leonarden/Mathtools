@@ -273,7 +273,7 @@ public class StatDataTable<N extends Number,T> {
 		for(N d:dataTable.keySet()) {
 			StatDataTableRow sdr = dataTable.get(d);
 			
-			for(int j =0;j<sdr.getAbsoluteFreq();j++) { //Absolute freq must at leat be 1 or higher
+			for(int j =0;j<sdr.getAbsoluteFreq();j++) { //Absolute freq must at least be 1 or higher
 				dtList.add(cnt,d); 
 				cnt++;
 			}

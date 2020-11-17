@@ -41,14 +41,16 @@ public class StatSimulatorTest
     {
          List<StatDataTable<Double,String>> dataTablesList = null;
     	
-    	  GenerateStatData<Double> gsd = new GenerateStatData<Double>();
+    	GenerateStatData<Double> gsd = new GenerateStatData<Double>();
     	int status = 1;
-    	
-    	gsd.setLengthOfLists(10);
-    	gsd.setNumOfLists(1);
+    	long start, end;
+    	gsd.setLengthOfLists(5);
+    	gsd.setNumOfLists(2);
     	gsd.setNumOfDigits(3);
     	
     	try {
+    		start = System.currentTimeMillis();
+    		System.out.println("Starting at:" + start);
     		gsd.generateRandomDataTablesList();
  
     		dataTablesList = ( List ) gsd.getDataTableList();
@@ -69,10 +71,11 @@ public class StatSimulatorTest
     			System.out.println("");
     			List<Double> values = sdt.getDataTableValues();
     			System.out.println("Table values:");
-    			System.out.println("");
+    			
     			for(int j=0;j<values.size();j++) {
     				System.out.print(" " + values.get(j).toString() + " ");
     			}
+    			System.out.println("");
     			System.out.println("Table Statistics:");
     			System.out.println(" Median:" + sdt.getMedian());
     			System.out.println(" Arith. Mean:" + sdt.getArithMean());
@@ -84,6 +87,10 @@ public class StatSimulatorTest
     			
     			
     		}
+    		end = System.currentTimeMillis();
+    		System.out.println("Ended at:" + end);
+    		
+    		System.out.println("Total seconds : " + (end-start)/1000);
     		
     	}catch(Exception ex) {
     		ex.printStackTrace();
