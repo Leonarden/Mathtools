@@ -48,7 +48,7 @@ public class GenerateStatData<N extends Number> {
 			
 			dataTableList.add(sdt);
 			
-			if(sdt.getType().equalsIgnoreCase("Target")) {
+			if(sdt.getType().equals(StatDataTableType.TARGET)) {
 				numOfTargetSamples++;
 				log.debug("Adding a Target sample, total Target:" + numOfTargetSamples+ " Total samples:" + dataTableList.size());
 			}else {
@@ -98,7 +98,7 @@ public class GenerateStatData<N extends Number> {
 		for(int i=0;i<numOfLists;i++) {
 			values = new LinkedList<Double>();
 			data = new StatDataTable();
-			data.setType("Randomized");
+			data.setType(StatDataTableType.RANDOMIZED);
 			values = generateRandomValues(values);
 			
 			

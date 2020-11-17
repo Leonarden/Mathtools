@@ -30,7 +30,7 @@ public class StatDataTable<N extends Number,T> {
 	private static Logger log = LogManager.getLogger(StatDataTable.class.getCanonicalName());
 	
 	/*Type of sample*/
-	private String type = "";
+	private StatDataTableType type = StatDataTableType.RANDOMIZED;
 	/* will contain the table of frequencies */
 	private SortedMap<N,StatDataTableRow<N,T>> dataTable;
 	/* min difference between to values that will become key*/
@@ -63,7 +63,12 @@ public class StatDataTable<N extends Number,T> {
 	
 	
 	
-	public String getType() {
+	
+
+
+
+
+	public StatDataTableType getType() {
 		return type;
 	}
 
@@ -71,9 +76,19 @@ public class StatDataTable<N extends Number,T> {
 
 
 
-	public void setType(String type) {
+
+
+
+
+
+	public void setType(StatDataTableType type) {
 		this.type = type;
 	}
+
+
+
+
+
 
 
 
