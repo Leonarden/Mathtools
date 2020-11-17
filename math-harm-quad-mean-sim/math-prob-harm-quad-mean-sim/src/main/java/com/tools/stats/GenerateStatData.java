@@ -9,6 +9,11 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/*Provides methods to generate data from:
+ * a) A csv text file containing double values (pending)
+ * b) Data Randomly generated
+ */
+
 public class GenerateStatData<N extends Number> {
 	
 

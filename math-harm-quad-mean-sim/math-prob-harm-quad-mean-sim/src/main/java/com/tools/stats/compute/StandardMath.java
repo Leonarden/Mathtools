@@ -2,6 +2,7 @@ package com.tools.stats.compute;
 
 import java.util.List;
 import org.apache.commons.math3.stat.descriptive.moment.*;
+import org.apache.commons.math3.stat.descriptive.rank.Median;
 public class StandardMath extends AbstractMath {
 
 	@Override
@@ -52,5 +53,17 @@ public class StandardMath extends AbstractMath {
 	     }
 		return hmresult;
 	}
+	public Double computeMedian(List dataSet) throws Exception {
+ 		//median
+		Double d = null;
+		double arr[] = new double[dataSet.size()];
+		for(int i=0;i<dataSet.size();i++) {
+			d = (Double) dataSet.get(i);
+			arr[i] = d.doubleValue();
+		}
+		Median median = new Median();
+		
+		return median.evaluate(arr);
 
+	}
 }

@@ -218,9 +218,10 @@ public class StatDataTable<N extends Number,T> {
         try {
     	   	
     		dataSet = this.getDataTableValues();
-    		this.median = this.computeMedian(dataSet);
-    		//Arithmetic mean
     		statCalc = new StandardMath();
+    		
+    		this.median = ((StandardMath)statCalc).computeMedian(dataSet);
+    		//Arithmetic mean
     		this.arithMean = statCalc.computeMean((List<Double>) dataSet);
     		//Harmonic mean
     		this.harmMean = statCalc.computeHarmonicMean((List<Double>) dataSet);
@@ -244,22 +245,72 @@ public class StatDataTable<N extends Number,T> {
 	
 	}
 	
-	/*
+	/**
 	 * 
 	 */
-	private Double computeMedian(List<N> dataSet) throws Exception {
- 		//median
-		Double d = null;
-		double arr[] = new double[dataSet.size()];
-		for(int i=0;i<dataSet.size();i++) {
-			d = (Double) dataSet.get(i);
-			arr[i] = d.doubleValue();
+	public StatDataTableRow<N,T> getDataTableRow(Double key){
+		StatDataTableRow dtr = null;
+		Double dKey = null;
+		try {
+			if(!dataTable.containsKey(key)) {
+					dKey = key-this.deltaError;
+					if(dataTable.containsKey(dKey))
+						key = dKey;
+					else {
+						dKey = key+this.deltaError;
+						key = dKey;
+					}
+			
+			
+					log.debug("Applied deltaError contains Key:" + dataTable.containsKey(key) +" for: " + key);
+			}
+			
+			 dtr = dataTable.get(key);	
+				
+		}catch(Exception e) {
+			dtr = null;
+			log.debug("Exception in getDataTableRow: " + e.getLocalizedMessage());
 		}
-		Median median = new Median();
-		
-		return median.evaluate(arr);
-
+	
+		return dtr;
 	}
+	
+	/**
+	 * 
+	 */
+	
+	public int addDataTableRow(N key, StatDataTableRow<N,T> dtrow) {
+		int added = 0;
+		Double dKey, tk;
+		try {
+			//we should check deltaError
+			tk = Double.valueOf( key.toString());
+			dKey = tk - this.deltaError;
+			if(this.dataTable.containsKey(dKey)) {
+				this.dataTable.put((N)dKey, dtrow);
+				added = 1;
+				log.debug("Add dataTableRow: Existing - delta Error for key:" + key);
+			}else {
+				dKey = tk + this.deltaError;
+				if(this.dataTable.containsKey(dKey)) {
+					this.dataTable.put((N) dKey,dtrow);
+					added = 1;
+					log.debug("Add dataTableRow: Existing + delta Error for key:" + key);
+				}else {
+					this.dataTable.put(key, dtrow);
+					added = 1;
+					log.debug("Add dataTableRow: No delta Error for key:" + key);
+				}
+			}
+		
+		}catch(Exception e) {
+			log.debug("Exception addingDTableRow:" + e.getLocalizedMessage());
+			added = 0;
+		}
+		
+		return added;
+	}
+	
 	
 	/**
 	 * 
