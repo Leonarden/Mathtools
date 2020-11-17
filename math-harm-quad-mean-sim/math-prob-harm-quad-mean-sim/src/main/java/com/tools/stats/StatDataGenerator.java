@@ -14,11 +14,11 @@ import org.apache.logging.log4j.Logger;
  * b) Data Randomly generated
  */
 
-public class GenerateStatData<N extends Number> {
+public class StatDataGenerator<N extends Number> {
 	
 
 	
-	public static Logger log = LogManager.getLogger(GenerateStatData.class.getCanonicalName());
+	public static Logger log = LogManager.getLogger(StatDataGenerator.class.getCanonicalName());
 	
 	
 	private List<StatDataTable> dataTableList;
@@ -35,7 +35,7 @@ public class GenerateStatData<N extends Number> {
 	/*File generated parameters*/
 	private String fileName = "";
 	
-	public GenerateStatData() {
+	public StatDataGenerator() {
 		dataTableList = new LinkedList<StatDataTable>();
 	}
 	

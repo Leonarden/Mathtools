@@ -3,7 +3,7 @@ package com.tools.stats;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.tools.stats.GenerateStatData;
+import com.tools.stats.StatDataGenerator;
 import com.tools.stats.StatDataTable;
 
 import junit.framework.Test;
@@ -13,7 +13,7 @@ import junit.framework.TestSuite;
 /**
  * Unit test for simple App.
  */
-public class StatSimulatorTest 
+public class StatDataTablesTest1 
     extends TestCase
 {
     /**
@@ -21,7 +21,7 @@ public class StatSimulatorTest
      *
      * @param testName name of the test case
      */
-    public StatSimulatorTest( String testName )
+    public StatDataTablesTest1( String testName )
     {
         super( testName );
     }
@@ -31,7 +31,7 @@ public class StatSimulatorTest
      */
     public static Test suite()
     {
-        return new TestSuite( StatSimulatorTest.class );
+        return new TestSuite( StatDataTablesTest1.class );
     }
 
     /**
@@ -41,7 +41,7 @@ public class StatSimulatorTest
     {
          List<StatDataTable<Double,String>> dataTablesList = null;
     	
-    	GenerateStatData<Double> gsd = new GenerateStatData<Double>();
+    	StatDataGenerator<Double> gsd = new StatDataGenerator<Double>();
     	int status = 1;
     	long start, end;
     	gsd.setLengthOfLists(5);

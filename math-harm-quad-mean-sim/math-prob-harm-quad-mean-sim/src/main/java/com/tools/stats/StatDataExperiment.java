@@ -11,15 +11,15 @@ public class StatDataExperiment<N extends Number,T> {
 	
 	private static Logger log = LogManager.getLogger(StatDataExperiment.class.getCanonicalName());
 	
-	 private GenerateStatData<N> generator;
+	 private StatDataGenerator<N> generator;
 	/* code for the experiment*/
 	private String code;
 	private List<StatDataTable<N,T>> dataTables;
 	private Date lastAccessed;
-	public GenerateStatData<N> getGenerator() {
+	public StatDataGenerator<N> getGenerator() {
 		return generator;
 	}
-	public void setGenerator(GenerateStatData<N> generator) {
+	public void setGenerator(StatDataGenerator<N> generator) {
 		this.generator = generator;
 	}
 	public String getCode() {
@@ -91,6 +91,36 @@ public class StatDataExperiment<N extends Number,T> {
 	
 	}
    /**
+    * 
+    * @param momentum
+    */
+	
+	public void setAllStatDataTableMomentum(int momentum) {
+		try {
+			for(StatDataTable sdt: this.dataTables) {
+				sdt.setMomentum(momentum);
+			}
+		}catch(Exception e) {
+			log.debug("Exception while setting momentum for all tables "+ e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 
+	 * @param pos
+	 * @param momentum
+	 */
+	public void setStatDataTableMomentum(int pos, int momentum) {
+		try {
+			this.dataTables.get(pos).setMomentum(momentum);
+			
+		}catch(Exception e) {
+			log.debug("Exception while setting momentum for table at index:"+ pos +"  "+ e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	/**
     * Computes all tables
     */
 	public void computeAllStatDataTable() throws Exception {
