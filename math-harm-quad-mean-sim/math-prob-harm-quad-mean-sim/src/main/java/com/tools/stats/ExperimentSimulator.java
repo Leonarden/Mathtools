@@ -21,7 +21,7 @@ public class ExperimentSimulator
     	int status = 1;
     	long start, end;
     	generator.setLengthOfLists(5);
-    	generator.setNumOfLists(2);
+    	generator.setNumOfLists(3);
     	generator.setNumOfDigits(3);
     	
     	try {
