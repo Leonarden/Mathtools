@@ -109,24 +109,22 @@ public class StatDataGenerator<N extends Number> {
 				nwTable.setType(type);
 			
 				
-		int length = computeMinLength(dataTables);
+		int length = computeMaxLength(dataTables);
 	    
-		for(int i=0;i<=length;i++) {
+		for(int i=0;i<length;i++) {
 			tmp = getRandomTable(dataTables);
 			N d = getRandomValueFromTable(tmp);
-			StatDataTableRow sdtr = new StatDataTableRow();
-			sdtr.setAbsoluteFreq(1);
-			nwTable.addDataTableRow(d, sdtr);
+			nwTable.setDataTableValue(d);
 			log.debug("Added numeric value :" + d.toString());
 		}
 		
 		return nwTable;
 	}
 	
-	protected int computeMinLength(List<StatDataTable> dtTables) throws Exception {
-		int l = 100000;
+	protected int computeMaxLength(List<StatDataTable> dtTables) throws Exception {
+		int l = -1;
 		for(StatDataTable sdt:dtTables) {
-			if(sdt.getDataTable().size()< l)
+			if(sdt.getDataTable().size()> l)
 				l = sdt.getDataTable().size();
 		
 		}
