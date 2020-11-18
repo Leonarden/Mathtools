@@ -1,5 +1,6 @@
 package com.tools.stats;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -28,16 +29,29 @@ public class ExperimentSimulator
     		System.out.println("Starting at:" + start);
     		
     		experiment.setGenerator(generator);
-    		
+    		/* Generate random tables */
     		status = experiment.generateRandomDataTables();
     		
     		log.debug("Random Tables Generated with status "+ status);
+	
+    		/*Generate mixed tables*/
     		
+    		List<StatDataTable<Double,Double>> dataTables = experiment.getDataTables();
+    		
+    		List<String> ids = new ArrayList<String>();
+    		for(int i=0;i<dataTables.size();i++)
+    			ids.add(dataTables.get(i).getId());
+    		
+    		status = experiment.createFromDataTables(ids, null, StatDataTableType.MIXED);
+    	
+        	/*Compute statistical values */
     		experiment.setAllStatDataTableMomentum(2);
     		
     		experiment.computeAllStatDataTable();
     		
-    		List<StatDataTable<Double,Double>> dataTables = experiment.getDataTables();
+    		
+    		
+    		
     		
     		for(int i=0;i<dataTables.size();i++) {
     			StatDataTable<Double,Double> sdt =  dataTables.get(i);

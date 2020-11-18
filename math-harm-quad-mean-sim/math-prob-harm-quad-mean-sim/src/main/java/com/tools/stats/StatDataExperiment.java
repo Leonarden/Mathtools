@@ -1,6 +1,7 @@
 package com.tools.stats;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.logging.log4j.Level;
@@ -95,12 +96,32 @@ public class StatDataExperiment<N extends Number,T> {
 	 * @return
 	 */
 	public StatDataTable<N,T> getStatDataTable(int index){
+		StatDataTable dtable = null;
+		try {
 		
+			dtable = this.dataTables.get(index);
 		
-		return this.dataTables.get(index);
-		
+		}catch(Exception e) {
+			log.debug("GetDataTable by index exception" + e.getLocalizedMessage());
+			dtable = null;
+		}
+		return dtable;
 	}
-	
+	public StatDataTable<N,T> getStatDataTable(String ID){
+		StatDataTable dt = null;
+		try {
+		for(StatDataTable t:this.dataTables)
+			if(t.getId().equalsIgnoreCase(ID)) {
+				dt = t;
+				break;
+			}
+		}catch(Exception ex) {
+			log.debug("GetDataTable by ID exception" + ex.getLocalizedMessage());
+			dt = null;
+		}
+		
+		return dt;
+	}
 	
 	public int addStatDataTable(StatDataTable<N,T> sdt) {
 		int s = 0;
@@ -113,6 +134,33 @@ public class StatDataExperiment<N extends Number,T> {
 			s=0;
 		}
 		return s;
+	}
+	
+	public int createFromDataTables(List<String> ids,String tid, StatDataTableType type) {
+		int status = -1;
+		List<StatDataTable> tfrom = new LinkedList<StatDataTable>();
+		StatDataTable dt = null;
+		try {
+			for(String d:ids) {
+				dt = getStatDataTable(d);
+				if(dt!=null)
+					tfrom.add(dt);
+			}
+			
+			if(tfrom.size()<=0)
+				throw new Exception("No input dataTables for create");
+			
+			dt  = generator.createFromDataTables(tfrom, tid, type);
+			
+			this.dataTables.add(dt);
+			
+			status = 0;
+		}catch(Exception ex) {
+			log.debug("Exception createFromDataTables :"+ ex.getLocalizedMessage());
+			
+		}
+		
+		return status;
 	}
 	/**
 	 * 

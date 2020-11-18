@@ -92,6 +92,65 @@ public class StatDataGenerator<N extends Number> {
 	
 	}
 	/**
+	 * @return A new StatDataTable with values of each input table
+	 */
+	public StatDataTable createFromDataTables(List<StatDataTable> dataTables,
+			String tID,StatDataTableType type) throws Exception {
+			StatDataTable nwTable = new StatDataTable();
+			StatDataTable tmp = null;
+			if(tID==null || tID.isEmpty())
+				nwTable.setId(generateRandomId(3000));
+			else
+				nwTable.setId(tID);
+			
+			if(type == null)
+				nwTable.setType(StatDataTableType.MIXED);
+			else
+				nwTable.setType(type);
+			
+				
+		int length = computeMinLength(dataTables);
+	    
+		for(int i=0;i<=length;i++) {
+			tmp = getRandomTable(dataTables);
+			N d = getRandomValueFromTable(tmp);
+			StatDataTableRow sdtr = new StatDataTableRow();
+			sdtr.setAbsoluteFreq(1);
+			nwTable.addDataTableRow(d, sdtr);
+			log.debug("Added numeric value :" + d.toString());
+		}
+		
+		return nwTable;
+	}
+	
+	protected int computeMinLength(List<StatDataTable> dtTables) throws Exception {
+		int l = 100000;
+		for(StatDataTable sdt:dtTables) {
+			if(sdt.getDataTable().size()< l)
+				l = sdt.getDataTable().size();
+		
+		}
+		return l;
+	}
+	protected StatDataTable getRandomTable(List<StatDataTable> dtables) {
+		Random random = new Random((int)(10000*Math.random()*dtables.size()));
+		
+		return dtables.get(random.nextInt(dtables.size()));
+	}
+	/**
+	 * 
+	 */
+	public N getRandomValueFromTable(StatDataTable dataTable) throws Exception {
+		List<N> values = dataTable.getDataTableValues();
+		int seed = (int) (10000*Math.random()*values.size());
+		Random random = new Random(seed);
+		
+		int index = random.nextInt(values.size());
+		
+		return values.get(index);
+		
+	}
+	/**
 	 * 
 	 * @throws Exception
 	 */
@@ -154,7 +213,7 @@ public class StatDataGenerator<N extends Number> {
 	public String generateRandomId(int prefix) {
 		Random rnd = new Random(prefix);
 		String c = "" + prefix +"#";
-		long l = rnd.nextLong()%100000;
+		long l = Math.abs(rnd.nextLong()%100000);
 		c = c +l;
 		return c;
 	}
