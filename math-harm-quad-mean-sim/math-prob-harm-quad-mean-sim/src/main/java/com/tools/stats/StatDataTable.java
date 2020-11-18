@@ -28,7 +28,8 @@ import com.tools.stats.compute.StandardMath;
 public class StatDataTable<N extends Number,T> {
 	
 	private static Logger log = LogManager.getLogger(StatDataTable.class.getCanonicalName());
-	
+	/* Table unique id*/
+	private String id;
 	/*Type of sample*/
 	private StatDataTableType type = StatDataTableType.RANDOMIZED;
 	/* will contain the table of frequencies */
@@ -51,19 +52,13 @@ public class StatDataTable<N extends Number,T> {
 	
 	
     
-	/**/
+	/* Math computation*/
 	private AbstractMath statCalc = null;
 	
 	public StatDataTable() {
 	
 		dataTable = new TreeMap<N,StatDataTableRow<N,T>>();
 	}
-
-
-	
-	
-	
-	
 
 
 
@@ -90,6 +85,20 @@ public class StatDataTable<N extends Number,T> {
 
 
 
+
+
+
+
+	public String getId() {
+		return id;
+	}
+
+
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 
 
@@ -388,9 +397,8 @@ public void setDataTableValue(N d) {
 	sdr = dataTable.get(d);
 	
 	if(sdr==null) {
-	    if(d.doubleValue()< 0)
-		nme = Math.abs(d.doubleValue() + deltaError.doubleValue());
-	    else if(d.doubleValue()>0)
+	    nme = Math.abs(d.doubleValue() + deltaError.doubleValue());
+	    if(!this.dataTable.containsKey(nme))
 	    nme = Math.abs(d.doubleValue() - deltaError.doubleValue());
 	
 	    sdr = dataTable.get(nme);

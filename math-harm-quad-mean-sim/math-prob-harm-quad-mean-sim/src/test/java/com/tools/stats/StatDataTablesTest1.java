@@ -51,9 +51,9 @@ public class StatDataTablesTest1
     	try {
     		start = System.currentTimeMillis();
     		System.out.println("Starting at:" + start);
-    		gsd.generateRandomDataTablesList();
+    		gsd.generateRandomDataTables();
  
-    		dataTablesList = ( List ) gsd.getDataTableList();
+    		dataTablesList = ( List ) gsd.getDataTables();
     		
     		
     		assertTrue(dataTablesList.size()>0);

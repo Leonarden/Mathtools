@@ -21,7 +21,7 @@ public class StatDataGenerator<N extends Number> {
 	public static Logger log = LogManager.getLogger(StatDataGenerator.class.getCanonicalName());
 	
 	
-	private List<StatDataTable> dataTableList;
+	private List<StatDataTable> dataTables;
 
 	/*Random generation parameters*/
 	private int numOfLists = 0;
@@ -36,23 +36,23 @@ public class StatDataGenerator<N extends Number> {
 	private String fileName = "";
 	
 	public StatDataGenerator() {
-		dataTableList = new LinkedList<StatDataTable>();
+		dataTables = new LinkedList<StatDataTable>();
 	}
 	
-	public List<StatDataTable> getDataTableList(){
+	public List<StatDataTable> getDataTables(){
 		
-		return dataTableList;
+		return dataTables;
 	}
-	public void addDataTableList(StatDataTable sdt) {
+	public void addDataTable(StatDataTable sdt) {
 		try {
 			
-			dataTableList.add(sdt);
+			dataTables.add(sdt);
 			
 			if(sdt.getType().equals(StatDataTableType.TARGET)) {
 				numOfTargetSamples++;
-				log.debug("Adding a Target sample, total Target:" + numOfTargetSamples+ " Total samples:" + dataTableList.size());
+				log.debug("Adding a Target sample, total Target:" + numOfTargetSamples+ " Total samples:" + dataTables.size());
 			}else {
-				log.debug("Adding sample of type:" + sdt.getType() + " Total samples:" + dataTableList.size());
+				log.debug("Adding sample of type:" + sdt.getType() + " Total samples:" + dataTables.size());
 			}
 			
 			
@@ -91,27 +91,80 @@ public class StatDataGenerator<N extends Number> {
 		}
 	
 	}
-	
-	public void generateRandomDataTablesList() throws Exception{
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void generateRandomDataTables() throws Exception{
 		List values = null;
 		StatDataTable data = null;
 		for(int i=0;i<numOfLists;i++) {
 			values = new LinkedList<Double>();
 			data = new StatDataTable();
 			data.setType(StatDataTableType.RANDOMIZED);
+	        data.setId(generateRandomId(i));
 			values = generateRandomValues(values);
 			
 			
 			data.setDataTableValues(values);
 			
-			dataTableList.add(data);
+			dataTables.add(data);
 		}
 		
 		
 		
 		
 	}
+	/**
+	 * 
+	 */
+	public void generateRandomDataTables(List<String> ids,List<StatDataTableType> types) throws Exception {
+		List values = null;
+		StatDataTable data = null;
+		int length = 0;
+		if(ids==null && types==null)
+			this.generateRandomDataTables();
+		else {
+			if(ids.size()<=types.size())
+				length = ids.size();
+			else
+				length = types.size();
+		
+			for(int i=0;i<length;i++) {
+				values = new LinkedList<Double>();
+				data = new StatDataTable();
+				data.setType(types.get(i));
+	        data.setId(ids.get(i));
+			values = generateRandomValues(values);
+			
+			
+			data.setDataTableValues(values);
+			
+			dataTables.add(data);
+		
+			log.debug("Generated Table #"+ i + " ID:"+ data.getId());
+			}
+		
+		}
+	}
 	
+	/**
+	 * 
+	 */
+	public String generateRandomId(int prefix) {
+		Random rnd = new Random(prefix);
+		String c = "" + prefix +"#";
+		long l = rnd.nextLong()%100000;
+		c = c +l;
+		return c;
+	}
+	
+	
+	/**
+	 * 
+	 * @param vlist
+	 * @return
+	 */
 	public List<Double> generateRandomValues(List vlist){
 		
 		Integer seed;

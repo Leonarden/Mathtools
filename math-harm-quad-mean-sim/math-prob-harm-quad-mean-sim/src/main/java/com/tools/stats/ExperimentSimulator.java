@@ -41,7 +41,7 @@ public class ExperimentSimulator
     		
     		for(int i=0;i<dataTables.size();i++) {
     			StatDataTable<Double,Double> sdt =  dataTables.get(i);
-    			System.out.println("Table #: " + i + " of type:"+ sdt.getType());
+    			System.out.println("Table #: " + i + "ID: "+ sdt.getId() +" of type:"+ sdt.getType());
     			/*try {
     				sdt.setMomentum(2);
     				status = sdt.computeStats();

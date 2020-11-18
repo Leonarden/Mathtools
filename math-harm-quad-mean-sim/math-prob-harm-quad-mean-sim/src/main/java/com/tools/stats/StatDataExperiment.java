@@ -11,11 +11,23 @@ public class StatDataExperiment<N extends Number,T> {
 	
 	private static Logger log = LogManager.getLogger(StatDataExperiment.class.getCanonicalName());
 	
+	/**/
+	private String id;
+	
 	 private StatDataGenerator<N> generator;
 	/* code for the experiment*/
 	private String code;
 	private List<StatDataTable<N,T>> dataTables;
 	private Date lastAccessed;
+	
+	
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public StatDataGenerator<N> getGenerator() {
 		return generator;
 	}
@@ -42,17 +54,35 @@ public class StatDataExperiment<N extends Number,T> {
 	}
 	
 	/**
-	 * Generates random Tables, it will be necessary to add
+	 * Generates random Tables, 
 	 */
 	public int generateRandomDataTables() throws Exception {
 		int status = 0;
 		try {
 			
-			this.generator.generateRandomDataTablesList();
-			this.dataTables = (List) this.generator.getDataTableList();
+			this.generator.generateRandomDataTables();
+			this.dataTables = (List) this.generator.getDataTables();
 		
 		}catch(Exception e) {
-			log.debug("Exception ocurred in statDataExperiment :" + e.getLocalizedMessage());
+			log.debug("Exception ocurred in statDataExperiment-generateRandomDataTables :" + e.getLocalizedMessage());
+			status = -1;
+		}
+		
+		return status;
+	}
+	
+	/**
+	 * Generates random Tables, 
+	 */
+	public int generateRandomDataTables(List<String> ids, List<StatDataTableType> types) throws Exception {
+		int status = 0;
+		try {
+			
+			this.generator.generateRandomDataTables(ids,types);
+			this.dataTables = (List) this.generator.getDataTables();
+		
+		}catch(Exception e) {
+			log.debug("Exception ocurred in statDataExperiment-generateRandomDataTables :" + e.getLocalizedMessage());
 			status = -1;
 		}
 		
@@ -64,12 +94,14 @@ public class StatDataExperiment<N extends Number,T> {
 	 * @param pos
 	 * @return
 	 */
-	public StatDataTable<N,T> getStatDataTable(int pos){
+	public StatDataTable<N,T> getStatDataTable(int index){
 		
 		
-		return this.dataTables.get(pos);
+		return this.dataTables.get(index);
 		
 	}
+	
+	
 	public int addStatDataTable(StatDataTable<N,T> sdt) {
 		int s = 0;
 		try {
