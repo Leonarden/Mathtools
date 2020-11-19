@@ -25,46 +25,21 @@ public class StatDataGenerator<N extends Number> {
 	public static Logger log = LogManager.getLogger(StatDataGenerator.class.getCanonicalName());
 	
 	
-	private List<StatDataTable> dataTables;
-
+	
 	/*Random generation parameters*/
 	private int numOfLists = 0;
 	
 	private int lengthOfLists = 0;
 	
 	private int numOfDigits = 0;
-	/*1: indicates that 1 Table will be of type="Sample", the rest type="Randomized"*/
-	private int numOfTargetSamples = 1;
 	/**/
 	/*File generated parameters*/
 	private String fileName = "";
 	
 	public StatDataGenerator() {
-		dataTables = new LinkedList<StatDataTable>();
+	
 	}
 	
-	public List<StatDataTable> getDataTables(){
-		
-		return dataTables;
-	}
-	public void addDataTable(StatDataTable sdt) {
-		try {
-			
-			dataTables.add(sdt);
-			
-			if(sdt.getType().equals(StatDataTableType.TARGET)) {
-				numOfTargetSamples++;
-				log.debug("Adding a Target sample, total Target:" + numOfTargetSamples+ " Total samples:" + dataTables.size());
-			}else {
-				log.debug("Adding sample of type:" + sdt.getType() + " Total samples:" + dataTables.size());
-			}
-			
-			
-		}catch(Exception ex) {
-			log.debug("AddDataTable exception:" + ex.getCause());
-			ex.printStackTrace();
-		}
-	}
 	/**
 	 * Random generation Parameters Scanned from console
 	 */
@@ -77,11 +52,12 @@ public class StatDataGenerator<N extends Number> {
 		numOfLists = scanner.nextInt();
 		System.out.println();
 	
-		System.out.println("How many Target sample for experiment (1,2,3,4)");
+		/*System.out.println("How many Target sample for experiment (1,2,3,4)");
 		numOfTargetSamples = scanner.nextInt();
+		*/
 		System.out.println();
 	
-		System.out.print("Size of the Sample?(4,5,10...");
+		System.out.print("Size of the Sample (4,5,10...)");
 		lengthOfLists = scanner.nextInt();
 		
 		System.out.print("?(1,2,3,4,5,..8");
@@ -161,7 +137,8 @@ public class StatDataGenerator<N extends Number> {
 	 * 
 	 * @throws Exception
 	 */
-	public void generateRandomDataTables() throws Exception{
+	public List<StatDataTable> generateRandomDataTables() throws Exception{
+		List<StatDataTable> dataTables = new LinkedList<StatDataTable>();
 		List values = null;
 		StatDataTable data = null;
 		for(int i=0;i<numOfLists;i++) {
@@ -178,18 +155,19 @@ public class StatDataGenerator<N extends Number> {
 		}
 		
 		
-		
+		return dataTables;
 		
 	}
 	/**
 	 * 
 	 */
-	public void generateRandomDataTables(List<String> ids,List<StatDataTableType> types) throws Exception {
+	public List<StatDataTable> generateRandomDataTables(List<String> ids,List<StatDataTableType> types) throws Exception {
+		List<StatDataTable> dataTables = new LinkedList<StatDataTable>();
 		List values = null;
 		StatDataTable data = null;
 		int length = 0;
 		if(ids==null && types==null)
-			this.generateRandomDataTables();
+			dataTables = this.generateRandomDataTables();
 		else {
 			if(ids.size()<=types.size())
 				length = ids.size();
@@ -212,6 +190,7 @@ public class StatDataGenerator<N extends Number> {
 			}
 		
 		}
+		return dataTables;
 	}
 	
 	/**
@@ -219,7 +198,8 @@ public class StatDataGenerator<N extends Number> {
 	 * 
 	 * @return number of tables created
 	 */
-	public int generateDataTablesFromCSV(String csvFileName, N type) throws Exception{
+	public List<StatDataTable> generateDataTablesFromCSV(String csvFileName, N type) throws Exception{
+		List<StatDataTable> dataTables = new LinkedList<StatDataTable>();
 		StatDataTable dataTable = new StatDataTable();
 		BufferedReader breader = null;
 		String[]mtokens = null;
@@ -267,7 +247,7 @@ public class StatDataGenerator<N extends Number> {
 						dataTable.setId(tId);
 						dataTable.setType(tType);
 						dataTable.setDataTableValues(values);
-						this.dataTables.add(dataTable);
+						dataTables.add(dataTable);
 					    ncreated++;
 					    endTable = 0;
 				    	dataTable = new StatDataTable();
@@ -290,7 +270,7 @@ public class StatDataGenerator<N extends Number> {
 			breader.close();
 		}
 	
-		return ncreated;
+		return dataTables;
 	}
 	
 	protected boolean tokensEmpty(String[]ts) {
@@ -403,7 +383,6 @@ public class StatDataGenerator<N extends Number> {
 		
 	}
 
-
 	
 	public int getNumOfLists() {
 		return numOfLists;
@@ -434,22 +413,8 @@ public class StatDataGenerator<N extends Number> {
 		this.numOfDigits = numOfDigits;
 	}
 
-	public int getNumOfTargetSamples() {
-		return numOfTargetSamples;
-	}
-
-	public void setNumOfTargetSamples(int numOfTargetSamples) {
-		this.numOfTargetSamples = numOfTargetSamples;
-	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
 	
+
 	
 	
 	

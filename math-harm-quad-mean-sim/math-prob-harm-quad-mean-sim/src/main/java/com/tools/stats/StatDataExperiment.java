@@ -21,7 +21,9 @@ public class StatDataExperiment<N extends Number,T> {
 	private List<StatDataTable<N,T>> dataTables;
 	private Date lastAccessed;
 	
-	
+	public StatDataExperiment() {
+		dataTables = new LinkedList<StatDataTable<N,T>>();
+	}
 	
 	public String getId() {
 		return id;
@@ -61,8 +63,8 @@ public class StatDataExperiment<N extends Number,T> {
 		int status = 0;
 		try {
 			
-			this.generator.generateRandomDataTables();
-			this.dataTables = (List) this.generator.getDataTables();
+			for(StatDataTable dataTable:this.generator.generateRandomDataTables())
+				this.dataTables.add(dataTable);
 		
 		}catch(Exception e) {
 			log.debug("Exception ocurred in statDataExperiment-generateRandomDataTables :" + e.getLocalizedMessage());
@@ -79,8 +81,8 @@ public class StatDataExperiment<N extends Number,T> {
 		int status = 0;
 		try {
 			
-			this.generator.generateRandomDataTables(ids,types);
-			this.dataTables = (List) this.generator.getDataTables();
+			for(StatDataTable dataTable:this.generator.generateRandomDataTables(ids,types))
+				this.dataTables.add(dataTable);
 		
 		}catch(Exception e) {
 			log.debug("Exception ocurred in statDataExperiment-generateRandomDataTables :" + e.getLocalizedMessage());
@@ -127,6 +129,8 @@ public class StatDataExperiment<N extends Number,T> {
 		int s = 0;
 		try {
 			this.dataTables.add(sdt);
+		
+			log.debug("Adding sample of type:" + sdt.getType() + " Total samples:" + dataTables.size());
 			
 			s=1;
 		}catch(Exception e) {
@@ -174,8 +178,11 @@ public class StatDataExperiment<N extends Number,T> {
 		N type = null;
 		try {
 			if(filename.endsWith(".csv")) {
-				ncreated = generator.generateDataTablesFromCSV(filename, type);
-			    this.dataTables = (List) generator.getDataTables();
+				
+		        for(StatDataTable dt:generator.generateDataTablesFromCSV(filename, type)) {
+		        	this.dataTables.add(dt);
+		        	ncreated++;
+		        }
 			}else 
 				throw new Exception("File format not supported, must be CSV");
 			
@@ -191,9 +198,9 @@ public class StatDataExperiment<N extends Number,T> {
 	/**
 	 * 
 	 */
-	public void computeStatDataTable(int pos) throws Exception{
+	public void computeStatDataTable(int index) throws Exception{
 		
-		this.dataTables.get(pos).computeStats();
+		this.dataTables.get(index).computeStats();
 	
 	}
    /**

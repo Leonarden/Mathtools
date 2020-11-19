@@ -23,6 +23,9 @@ public class ExperimentSimulator
     	
     	String filename = "/home/david/.wrk/devenv-A/git/math-probability-repo/math-probabilty-1/math-harm-quad-mean-sim/math-prob-harm-quad-mean-sim/src/main/resources/samples.csv";
     	
+    	experiment.setId("1-Experiment221");
+    	experiment.setCode("YYYY-BBBBA");
+    	
     	generator.setLengthOfLists(5);
     	generator.setNumOfLists(1);
     	generator.setNumOfDigits(3);
@@ -51,11 +54,11 @@ public class ExperimentSimulator
     		for(int i=0;i<dataTables.size();i++)
     			ids.add(dataTables.get(i).getId());
     		
+    		/*Mixing data from all existing tables */
     		status = experiment.createFromDataTables(ids, null, StatDataTableType.MIXED);
     	
         	/*Compute statistical values */
     		experiment.setAllStatDataTableMomentum(2);
-    		
     		experiment.computeAllStatDataTable();
     		
     		
@@ -65,14 +68,6 @@ public class ExperimentSimulator
     		for(int i=0;i<dataTables.size();i++) {
     			StatDataTable<Double,Double> sdt =  dataTables.get(i);
     			System.out.println("Table #: " + i + "ID: "+ sdt.getId() +" of type:"+ sdt.getType());
-    			/*try {
-    				sdt.setMomentum(2);
-    				status = sdt.computeStats();
-    				System.out.println("Computed stats: " + status);
-    			}catch(Exception ex) {
-    				ex.printStackTrace();
-    			}
-    			*/
     			System.out.println("");
     			List<Double> values = sdt.getDataTableValues();
     			System.out.println("Table values:");
