@@ -20,9 +20,14 @@ public class ExperimentSimulator
     
     	int status = 1;
     	long start, end;
+    	
+    	String filename = "/home/david/.wrk/devenv-A/git/math-probability-repo/math-probabilty-1/math-harm-quad-mean-sim/math-prob-harm-quad-mean-sim/src/main/resources/samples.csv";
+    	
     	generator.setLengthOfLists(5);
-    	generator.setNumOfLists(3);
+    	generator.setNumOfLists(1);
     	generator.setNumOfDigits(3);
+    	
+    	
     	
     	try {
     		start = System.currentTimeMillis();
@@ -33,7 +38,11 @@ public class ExperimentSimulator
     		status = experiment.generateRandomDataTables();
     		
     		log.debug("Random Tables Generated with status "+ status);
-	
+	        /* Generate tables from file */
+    		
+    		status = experiment.generateDataTablesFromFile(filename);
+     		log.debug(" Tables Generated from File #: with status "+ status);
+     		 		
     		/*Generate mixed tables*/
     		
     		List<StatDataTable<Double,Double>> dataTables = experiment.getDataTables();

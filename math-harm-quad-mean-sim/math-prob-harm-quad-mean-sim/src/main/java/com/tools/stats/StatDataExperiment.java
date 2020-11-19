@@ -163,6 +163,32 @@ public class StatDataExperiment<N extends Number,T> {
 		return status;
 	}
 	/**
+	 * Generates StatDataTables from CSV file @see CSV format
+	 * @param filename
+	 * @return
+	 * @throws Exception
+	 */
+	
+	public int generateDataTablesFromFile(String filename) throws Exception{
+		int ncreated = 0;
+		N type = null;
+		try {
+			if(filename.endsWith(".csv")) {
+				ncreated = generator.generateDataTablesFromCSV(filename, type);
+			    this.dataTables = (List) generator.getDataTables();
+			}else 
+				throw new Exception("File format not supported, must be CSV");
+			
+			
+		}catch(Exception ex) {
+			log.debug("Generating data tables from file exception:" + ex.getLocalizedMessage());
+			ex.printStackTrace();
+			ncreated = -1;
+		}
+		
+		return ncreated;
+	}
+	/**
 	 * 
 	 */
 	public void computeStatDataTable(int pos) throws Exception{

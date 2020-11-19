@@ -1,5 +1,9 @@
 package com.tools.stats;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -67,6 +71,7 @@ public class StatDataGenerator<N extends Number> {
 	
 	public void scanParameters() {
 		Scanner scanner = new Scanner(System.in);
+	try {
 		System.out.println("Generating data for simulation---");
 		System.out.println("How many arrays of random numbers(1,2,3,4..)");
 		numOfLists = scanner.nextInt();
@@ -90,6 +95,10 @@ public class StatDataGenerator<N extends Number> {
 			System.out.println("Input values were to low or to high");
 		}
 	
+	  }catch(Exception ex) {
+		log.debug("Problem scanning parameters exception: " + ex.getLocalizedMessage());
+		ex.printStackTrace();
+	  }
 	}
 	/**
 	 * @return A new StatDataTable with values of each input table
@@ -206,6 +215,140 @@ public class StatDataGenerator<N extends Number> {
 	}
 	
 	/**
+	 * @see samples.csv for input file format
+	 * 
+	 * @return number of tables created
+	 */
+	public int generateDataTablesFromCSV(String csvFileName, N type) throws Exception{
+		StatDataTable dataTable = new StatDataTable();
+		BufferedReader breader = null;
+		String[]mtokens = null;
+		List<N> values = new LinkedList<N>();
+		StatDataTableType tType = null;
+		N number = null;
+		String tId = "";
+		String line = "";
+		int ncreated = 0;
+	    int endTable = 0;
+		try {
+			breader = new BufferedReader(new FileReader(new File(csvFileName)));
+			line = breader.readLine();
+			while(line!=null) {
+				
+				mtokens = line.split(",");
+				if(mtokens.length>0 && !tokensEmpty(mtokens)) {
+					//read many lines
+					for(int i=0; i< mtokens.length; i++) {
+						if( (number = readInputNumber(mtokens[i])) != null)
+							values.add(number);
+						else if((tId= readTableId(mtokens[i]))!=null) {
+							
+							endTable++;
+							log.debug("Table ID readed from file, value: " + tId);
+						
+						}
+						else {
+							tType= readTableType(mtokens[i]);
+							
+							endTable++;
+							log.debug("Table Type readed from file, value: " + tType);
+					        
+						}
+							
+							
+					}
+		
+				}
+				if(endTable>=1 && values.size()>0) {
+						if(tId==null || tId.isEmpty())
+							tId = generateRandomId(4000);
+						if(tType==null)
+							tType = StatDataTableType.CONTROL;
+						dataTable.setId(tId);
+						dataTable.setType(tType);
+						dataTable.setDataTableValues(values);
+						this.dataTables.add(dataTable);
+					    ncreated++;
+					    endTable = 0;
+				    	dataTable = new StatDataTable();
+					    values = new LinkedList<N>();
+
+				}
+				
+				line = breader.readLine();
+				
+				
+			}
+			
+		}catch(IOException ioe) {
+			log.debug("IOException reading CSV file: " + ioe.getLocalizedMessage());
+			ioe.printStackTrace();
+		}catch(Exception ex) {
+			log.debug("Exception  reading CSV file: " + ex.getLocalizedMessage());
+			ex.printStackTrace();
+		}finally {
+			breader.close();
+		}
+	
+		return ncreated;
+	}
+	
+	protected boolean tokensEmpty(String[]ts) {
+		boolean tempty = true;
+		for(int i=0;i<ts.length;i++)
+			if(!ts[i].isEmpty()) {
+				tempty = false;
+				break;
+				}
+		return tempty;
+	}
+	
+	private N readInputNumber(String t) {
+		N val = null;
+		try { 
+			Double d = Double.valueOf(t);
+			val = (N) d;
+		}catch(Exception ex ) {
+			log.debug("Double not accepted");
+			try {
+				Float f = Float.valueOf(t);
+				val = (N) f;
+			}catch(Exception ex1) {
+				log.debug("Float not accepted");		
+				val = null;
+			}
+		}
+		
+		return val;
+	}
+	
+	private String readTableId(String t) {
+		
+		String id = null;
+		if(t.lastIndexOf("ID:")>=0) {
+			id = t.substring(t.lastIndexOf("ID:")+"ID:".length(), t.length());
+		}
+		
+		return id;
+		
+	}
+	
+	private StatDataTableType readTableType(String t) {
+		StatDataTableType type = null;
+		
+		if(t.contains("TARGET"))
+			type = StatDataTableType.TARGET;
+		
+		else if(t.contains("CONTROL"))
+			type = StatDataTableType.CONTROL;
+			
+		else if(t.contains("TEMP"))
+			type = StatDataTableType.TEMPORARY;
+		
+		
+		return type;
+	}
+	/**
 	 * 
 	 */
 	public String generateRandomId(int prefix) {
@@ -261,6 +404,7 @@ public class StatDataGenerator<N extends Number> {
 	}
 
 
+	
 	public int getNumOfLists() {
 		return numOfLists;
 	}
