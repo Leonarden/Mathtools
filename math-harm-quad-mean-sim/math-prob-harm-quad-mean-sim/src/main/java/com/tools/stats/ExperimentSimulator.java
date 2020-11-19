@@ -21,7 +21,7 @@ public class ExperimentSimulator
     	int status = 1;
     	long start, end;
     	
-    	String filename = "/home/david/.wrk/devenv-A/git/math-probability-repo/math-probabilty-1/math-harm-quad-mean-sim/math-prob-harm-quad-mean-sim/src/main/resources/samples.csv";
+    	String filename = "./src/main/resources/samples.csv";
     	
     	experiment.setId("1-Experiment221");
     	experiment.setCode("YYYY-BBBBA");
