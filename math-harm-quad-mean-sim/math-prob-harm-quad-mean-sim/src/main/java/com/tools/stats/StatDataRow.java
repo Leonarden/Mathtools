@@ -116,6 +116,7 @@ public class StatDataRow<N extends Number,T> extends AbstractStatData<N,T>{
 	public int computeStats() throws Exception {
 		Map<N,StatDataRow> dataTable;
 		StatDataRow prev=null,next = null;
+		int status = -1;
 		try {
 		dataTable =   ((StatDataTable) this.getStatData()).getDataTable();
 	
@@ -124,22 +125,24 @@ public class StatDataRow<N extends Number,T> extends AbstractStatData<N,T>{
 		
 		
 		Iterator<StatDataRow> it = dataTable.values().iterator();
-		next = it.next();
-		while(it.hasNext()) {
 		
-			if(next==this){
+		while(it.hasNext()) {
+			next = it.next();
+			if(next.equals(this)){
+				prev = computeCumulativeStats(prev,next);
 				break;
 			}
-			next = computeCumulativeStats(prev);
-		    prev = next;
-			next = it.next();
+			prev = computeCumulativeStats(prev,next);
+		   
+			
 		}
-		return 1;
+		
+		status = 1;
 		}catch(Exception ex) {
 			log.debug("Exception computing row statistics computeStats:" + ex.getLocalizedMessage());
 			ex.printStackTrace();
 		}
-			return 0;
+			return status;
 	}
 
 	protected int computeRelativeFrequency()throws Exception {
@@ -156,7 +159,7 @@ public class StatDataRow<N extends Number,T> extends AbstractStatData<N,T>{
 			sampleSize = sampleSize + row.getAbsoluteFreq(); 
 			
 		}
-		double rfd = (double) (absoluteFreq / sampleSize);
+		double rfd =  ((double)absoluteFreq / sampleSize);
 		Double rf = Double.valueOf(rfd);
 		
 		this.setRelativeFreq(rf);
@@ -169,21 +172,25 @@ public class StatDataRow<N extends Number,T> extends AbstractStatData<N,T>{
 		return 1;
 	}
 
-	protected StatDataRow computeCumulativeStats(StatDataRow previous) throws Exception {
+	protected StatDataRow computeCumulativeStats(StatDataRow previous,StatDataRow next) throws Exception {
 		try {
 			if(previous!=null) {
 				
-				previous.setCumulativeFreq(this.getAbsoluteFreq()+ previous.getCumulativeFreq());
-				previous.setCumulativeRelativeFreq(this.getRelativeFreq() + previous.getCumulativeRelativeFreq());;
+				next.setCumulativeFreq(next.getAbsoluteFreq()+ previous.getCumulativeFreq());
+				next.setCumulativeRelativeFreq(next.getRelativeFreq() + previous.getCumulativeRelativeFreq());;
+			
+			}else {
+				next.setCumulativeFreq(next.getAbsoluteFreq());
+				next.setCumulativeRelativeFreq(next.getRelativeFreq());;
 			
 			}
 			
 		}catch(Exception ex) {
 			log.debug("Exception computing cumulative stats:"+ ex.getLocalizedMessage());
-			previous = null;
+			next = null;
 			ex.printStackTrace();
 		}
-		return previous;
+		return next;
 	}
 	
 	
