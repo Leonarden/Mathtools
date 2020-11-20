@@ -12,7 +12,9 @@ import com.tools.stats.compute.AbstractMath;
 import com.tools.stats.compute.GeometricMath;
 import com.tools.stats.compute.StandardMath;
 import com.tools.stats.generator.StatDataRowGenerator;
+import com.tools.stats.util.StatDataGeneratorUtil;
 import com.tools.stats.util.StatDataTableType;
+import com.tools.stats.util.StatDataUtil;
 /**
  * 
  * @author david
@@ -30,7 +32,7 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 	/*Type of sample*/
 	private StatDataTableType type = StatDataTableType.RANDOMIZED;
 	/* will contain the table of frequencies */
-	private SortedMap<N,StatDataTableRow<N,T>> dataTable;
+	private SortedMap<N,StatDataRow<N,T>> dataTable;
 	/* min difference between to values that will become key*/
 	private  Double deltaError = 0.001;
 	/* Momentum for geometric Mean */
@@ -55,7 +57,7 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 	
 	public StatDataTable() {
 	
-		dataTable = new TreeMap<N,StatDataTableRow<N,T>>();
+		dataTable = new TreeMap<N,StatDataRow<N,T>>();
 	}
 
 
@@ -69,11 +71,6 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 
 
 
-
-
-
-
-
 	public void setType(StatDataTableType type) {
 		this.type = type;
 	}
@@ -82,7 +79,7 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 
 
 
-	public SortedMap<N, StatDataTableRow<N,T>> getDataTable() {
+	public SortedMap<N, StatDataRow<N,T>> getDataTable() {
 		return dataTable;
 	}
 
@@ -90,7 +87,7 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 
 
 
-	public void setDataTable(SortedMap<N, StatDataTableRow<N,T>> dataTable) {
+	public void setDataTable(SortedMap<N, StatDataRow<N,T>> dataTable) {
 		this.dataTable = dataTable;
 	}
 
@@ -214,6 +211,7 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 
 	public int computeStats() throws Exception {
 		List<N> dataSet = null;
+		int status = 0;
         try {
     	   	
     		dataSet = this.getDataTableValues();
@@ -234,22 +232,48 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
     		
     		mXGH =  stdMath.computeMean(dataSet);
     	   */
+    		status = this.computeRowStats();
     		isComputed = true;
-    		return 0;
+    		return status;
         }catch(Exception ex) {
         	log.debug("Exception computing table statistics"+ ex.getLocalizedMessage());
         	ex.printStackTrace();
     
         }
-		return 1;   
+		return status;   
 	
+	}
+	/**
+	 * 
+	 */
+	protected int computeRowStats() throws Exception {
+		int n = -1;
+		List<StatDataRow> dataRows = null;
+		try {
+		  
+			
+				this.dataTable.values().stream().forEach(r-> {
+					try {
+						r.computeStats();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				});
+			
+		}catch(Exception ex) {
+			
+		}
+		
+		return n;
 	}
 	
 	/**
 	 * 
 	 */
-	public StatDataTableRow<N,T> getDataTableRow(Double key){
-		StatDataTableRow dtr = null;
+	public StatDataRow<N,T> getDataTableRow(Double key){
+		StatDataRow dtr = null;
 		Double dKey = null;
 		try {
 			if(!dataTable.containsKey(key)) {
@@ -279,7 +303,7 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 	 * 
 	 */
 	
-	public int addDataTableRow(N key, StatDataTableRow<N,T> dtrow) {
+	public int addDataTableRow(N key, StatDataRow<N,T> dtrow) {
 		int added = 0;
 		Double dKey, tk;
 		try {
@@ -322,7 +346,7 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 		List<N> dtList = new LinkedList<N>();
 		int cnt = 0;
 		for(N d:dataTable.keySet()) {
-			StatDataTableRow sdr = dataTable.get(d);
+			StatDataRow sdr = dataTable.get(d);
 			
 			for(int j =0;j<sdr.getAbsoluteFreq();j++) { //Absolute freq must at least be 1 or higher
 				dtList.add(cnt,d); 
@@ -340,9 +364,9 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 	 * @param value
 	 * @return
 	 */
-	public StatDataTableRow<N,T> getDataTableRow(N value)  {
+	public StatDataRow<N,T> getDataTableRow(N value)  {
 		
-		StatDataTableRow<N,T> sdr =this.dataTable.get(value);
+		StatDataRow<N,T> sdr =this.dataTable.get(value);
 		//check if value is inside record sdr.getValue()==value
 		return sdr;
 	}
@@ -366,9 +390,14 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
  * @param d
  */
 public void setDataTableValue(N d) {
-	StatDataTableRow<N,T> sdr = null;
-   	Double nme = 0.0; //number minus tolerated error
+	StatDataRow<N,T> sdr = null;
+	StatDataUtil sdu = new StatDataUtil();
+	Double nme = 0.0; //number minus tolerated error
 	boolean isNk = false; //is new key
+	String rId = "";
+	
+	try {
+		
 	
 	sdr = dataTable.get(d);
 	
@@ -381,8 +410,10 @@ public void setDataTableValue(N d) {
 
 	    if(sdr==null) {
 		isNk = true;
-		//sdr.setIndex(i); // review order because values can be not sorted
-		sdr = new StatDataTableRow();
+		sdr = new StatDataRow();
+		rId = sdu.generateRandomId(Double.valueOf(Math.ceil((double)d)).intValue(),"#row@");
+		sdr.setId(rId);
+		sdr.setStatData(this);
 		sdr.setAbsoluteFreq(1);
 		sdr.setValue(d);
 		
@@ -402,6 +433,10 @@ public void setDataTableValue(N d) {
 	
     dataTable.put(d, sdr);
 	
+	}catch(Exception ex) {
+		log.debug("Exception adding Value to table: " + ex.getLocalizedMessage());
+		ex.printStackTrace();
+	}
 }
 	
 

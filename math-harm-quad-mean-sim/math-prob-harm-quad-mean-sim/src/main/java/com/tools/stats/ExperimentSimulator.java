@@ -80,6 +80,14 @@ public class ExperimentSimulator
     				System.out.print(" " + values.get(j).toString() + " ");
     			}
     			System.out.println("");
+    			System.out.println("-------------------------------------");
+    			System.out.println("Table Rows:");
+    		    for(StatDataRow row: sdt.getDataTable().values()) {
+    		    	System.out.println("Id:" + row.getId() + " Value: "+ row.getValue() + " AbsoluteFreq: " + row.getAbsoluteFreq() +
+    		    			" RelativeFreq: " + row.getRelativeFreq() + " CumulativeAbsFreq: " + row.getCumulativeFreq() + " CumulativeRelativeFreq : "+ row.getCumulativeRelativeFreq());
+    		    } 	
+    			System.out.println("---------------------------------------");
+    		
     			System.out.println("Table Statistics:");
     			System.out.println(" Median:" + sdt.getMedian());
     			System.out.println(" Arith. Mean:" + sdt.getArithMean());

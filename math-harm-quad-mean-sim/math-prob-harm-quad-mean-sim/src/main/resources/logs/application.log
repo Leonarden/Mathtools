@@ -1,0 +1,52 @@
+13:46:45.698 [main]   DEBUG com.tools.stats.ExperimentSimulator com.tools.stats.ExperimentSimulator.main(ExperimentSimulator.java:46): Random Tables Generated with status 0
+13:46:45.700 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:43): Double not accepted
+13:46:45.700 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:48): Float not accepted
+13:46:45.700 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.generateDataTablesFromCSV(StatDataTableGenerator.java:225): Table ID readed from file, value: 0-TARGET
+13:46:45.700 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:43): Double not accepted
+13:46:45.700 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:48): Float not accepted
+13:46:45.700 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.generateDataTablesFromCSV(StatDataTableGenerator.java:232): Table Type readed from file, value: TARGET
+13:46:45.701 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:43): Double not accepted
+13:46:45.701 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:48): Float not accepted
+13:46:45.701 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.generateDataTablesFromCSV(StatDataTableGenerator.java:225): Table ID readed from file, value: 1-CONTROL
+13:46:45.701 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:43): Double not accepted
+13:46:45.701 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:48): Float not accepted
+13:46:45.701 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.generateDataTablesFromCSV(StatDataTableGenerator.java:232): Table Type readed from file, value: CONTROL
+13:46:45.702 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:43): Double not accepted
+13:46:45.702 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:48): Float not accepted
+13:46:45.702 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.generateDataTablesFromCSV(StatDataTableGenerator.java:225): Table ID readed from file, value: 2-CONTROL
+13:46:45.702 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:43): Double not accepted
+13:46:45.702 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:48): Float not accepted
+13:46:45.702 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.generateDataTablesFromCSV(StatDataTableGenerator.java:232): Table Type readed from file, value: CONTROL
+13:46:45.703 [main]   DEBUG com.tools.stats.ExperimentSimulator com.tools.stats.ExperimentSimulator.main(ExperimentSimulator.java:50):  Tables Generated from File #: with status 3
+13:46:45.703 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.createFromDataTables(StatDataTableGenerator.java:108): Added numeric value :42.0
+13:46:45.704 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.createFromDataTables(StatDataTableGenerator.java:108): Added numeric value :3.1
+13:46:45.704 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.createFromDataTables(StatDataTableGenerator.java:108): Added numeric value :0.1
+13:46:45.704 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.createFromDataTables(StatDataTableGenerator.java:108): Added numeric value :0.02
+13:46:45.704 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.createFromDataTables(StatDataTableGenerator.java:108): Added numeric value :3.1
+13:46:45.790 [main]   DEBUG com.tools.stats.ExperimentSimulator com.tools.stats.ExperimentSimulator.main(ExperimentSimulator.java:66):  Statistics  Generated with status -5
+17:38:53.096 [main]   DEBUG com.tools.stats.ExperimentSimulator com.tools.stats.ExperimentSimulator.main(ExperimentSimulator.java:46): Random Tables Generated with status 0
+17:38:53.098 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:43): Double not accepted
+17:38:53.099 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:48): Float not accepted
+17:38:53.099 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.generateDataTablesFromCSV(StatDataTableGenerator.java:225): Table ID readed from file, value: 0-TARGET
+17:38:53.099 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:43): Double not accepted
+17:38:53.099 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:48): Float not accepted
+17:38:53.099 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.generateDataTablesFromCSV(StatDataTableGenerator.java:232): Table Type readed from file, value: TARGET
+17:38:53.100 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:43): Double not accepted
+17:38:53.100 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:48): Float not accepted
+17:38:53.100 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.generateDataTablesFromCSV(StatDataTableGenerator.java:225): Table ID readed from file, value: 1-CONTROL
+17:38:53.100 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:43): Double not accepted
+17:38:53.100 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:48): Float not accepted
+17:38:53.101 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.generateDataTablesFromCSV(StatDataTableGenerator.java:232): Table Type readed from file, value: CONTROL
+17:38:53.101 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:43): Double not accepted
+17:38:53.101 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:48): Float not accepted
+17:38:53.101 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.generateDataTablesFromCSV(StatDataTableGenerator.java:225): Table ID readed from file, value: 2-CONTROL
+17:38:53.102 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:43): Double not accepted
+17:38:53.102 [main]   DEBUG com.tools.stats.util.StatDataGeneratorUtil com.tools.stats.util.StatDataGeneratorUtil.readInputNumber(StatDataGeneratorUtil.java:48): Float not accepted
+17:38:53.102 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.generateDataTablesFromCSV(StatDataTableGenerator.java:232): Table Type readed from file, value: CONTROL
+17:38:53.102 [main]   DEBUG com.tools.stats.ExperimentSimulator com.tools.stats.ExperimentSimulator.main(ExperimentSimulator.java:50):  Tables Generated from File #: with status 3
+17:38:53.103 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.createFromDataTables(StatDataTableGenerator.java:108): Added numeric value :0.1
+17:38:53.103 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.createFromDataTables(StatDataTableGenerator.java:108): Added numeric value :0.02
+17:38:53.103 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.createFromDataTables(StatDataTableGenerator.java:108): Added numeric value :0.8
+17:38:53.103 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.createFromDataTables(StatDataTableGenerator.java:108): Added numeric value :3.1
+17:38:53.104 [main]   DEBUG com.tools.stats.generator.StatDataTableGenerator com.tools.stats.generator.StatDataTableGenerator.createFromDataTables(StatDataTableGenerator.java:108): Added numeric value :0.8
+17:39:06.177 [main]   DEBUG com.tools.stats.ExperimentSimulator com.tools.stats.ExperimentSimulator.main(ExperimentSimulator.java:66):  Statistics  Generated with status -5
