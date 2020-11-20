@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
  * 
  * T is the generic type with which we want to calculate statistics
  */
-public class StatDataTableRow<N extends Number,T> {
+public class StatDataTableRow<N extends Number,T> extends AbstractStatData<N,T>{
 	
 	private static Logger log = LogManager.getLogger(StatDataTableRow.class.getCanonicalName());
 	
@@ -33,7 +33,7 @@ public class StatDataTableRow<N extends Number,T> {
 	/* We give the option  to include the part of the sample 
 	 * corresponding to this key or value*/
 	private List<StatDataUnit<N,T>> rowSample = new LinkedList<StatDataUnit<N,T>>();
-	
+
 	
 	/* number of times that value is repeated / by total number of cases= Sum absoluteFreq of all rows */
 	private Double relativeFreq = 0.0;
@@ -108,6 +108,11 @@ public class StatDataTableRow<N extends Number,T> {
 	}
 	public void setV2XrelativeFreq(Double v2XrelativeFreq) {
 		this.v2XrelativeFreq = v2XrelativeFreq;
+	}
+	@Override
+	public int computeStats() throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

@@ -4,37 +4,31 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class StatDataExperiment<N extends Number,T> {
+import com.tools.stats.generator.StatDataTableGenerator;
+import com.tools.stats.util.StatDataTableType;
+
+public class StatDataExperiment<N extends Number,T> extends AbstractStatData<N,T> {
 	
 	private static Logger log = LogManager.getLogger(StatDataExperiment.class.getCanonicalName());
 	
-	/**/
-	private String id;
 	
-	 private StatDataGenerator<N> generator;
+	 private StatDataTableGenerator<N,T> generator;
 	/* code for the experiment*/
 	private String code;
 	private List<StatDataTable<N,T>> dataTables;
-	private Date lastAccessed;
+	
 	
 	public StatDataExperiment() {
 		dataTables = new LinkedList<StatDataTable<N,T>>();
 	}
 	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public StatDataGenerator<N> getGenerator() {
+	public StatDataTableGenerator<N,T> getGenerator() {
 		return generator;
 	}
-	public void setGenerator(StatDataGenerator<N> generator) {
+	public void setGenerator(StatDataTableGenerator<N,T> generator) {
 		this.generator = generator;
 	}
 	public String getCode() {
@@ -48,12 +42,6 @@ public class StatDataExperiment<N extends Number,T> {
 	}
 	public void setDataTables(List<StatDataTable<N, T>> dataTables) {
 		this.dataTables = dataTables;
-	}
-	public Date getLastAccessed() {
-		return lastAccessed;
-	}
-	public void setLastAccessed(Date lastAccessed) {
-		this.lastAccessed = lastAccessed;
 	}
 	
 	/**
@@ -198,10 +186,11 @@ public class StatDataExperiment<N extends Number,T> {
 	/**
 	 * 
 	 */
-	public void computeStatDataTable(int index) throws Exception{
-		
-		this.dataTables.get(index).computeStats();
+	public int computeStatDataTable(int index) throws Exception{
+		int status = 0;
+		status =  this.dataTables.get(index).computeStats();
 	
+		return status;
 	}
    /**
     * 
@@ -236,9 +225,11 @@ public class StatDataExperiment<N extends Number,T> {
 	/**
     * Computes all tables
     */
-	public void computeAllStatDataTable() throws Exception {
+	public int computeStats() throws Exception {
+		int status = 0;
 		for(int i=0;i<this.dataTables.size();i++)
-			computeStatDataTable(i);
+			status = status + computeStatDataTable(i);
+		return status;
 	}
 	
 	

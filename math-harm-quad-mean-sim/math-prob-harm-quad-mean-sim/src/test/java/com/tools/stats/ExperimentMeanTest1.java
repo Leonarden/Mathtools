@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.tools.stats.StatDataGenerator;
+
 import com.tools.stats.StatDataTable;
 import com.tools.stats.compute.GeometricMath;
 import com.tools.stats.compute.StandardMath;

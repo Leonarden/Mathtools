@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class StatDataUnit<N extends Number,T> {
+public class StatDataUnit<N extends Number,T> extends AbstractStatData<N,T>{
 	
 private static Logger log = LogManager.getLogger(StatDataUnit.class.getCanonicalName());
 	
@@ -19,7 +19,6 @@ private boolean isComputable;
 /* We allow working with more than one variable that will follow order:X,Y,Z...*/
 private List<N> variables;
 
-private T id;
 
 
 public N getRowKey() {
@@ -70,13 +69,12 @@ public void setVariables(List<N> variables) {
 	this.variables = variables;
 }
 
-public T getId() {
-	return id;
+@Override
+public int computeStats() throws Exception {
+	// TODO Auto-generated method stub
+	return 0;
 }
 
-public void setId(T id) {
-	this.id = id;
-}
 
 
 

@@ -1,19 +1,18 @@
 package com.tools.stats;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.commons.math3.stat.descriptive.rank.Median;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.tools.stats.compute.AbstractMath;
 import com.tools.stats.compute.GeometricMath;
 import com.tools.stats.compute.StandardMath;
+import com.tools.stats.generator.StatDataRowGenerator;
+import com.tools.stats.util.StatDataTableType;
 /**
  * 
  * @author david
@@ -25,11 +24,9 @@ import com.tools.stats.compute.StandardMath;
  * were due to luck or are genuine and valid.
  *
  */
-public class StatDataTable<N extends Number,T> {
+public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 	
 	private static Logger log = LogManager.getLogger(StatDataTable.class.getCanonicalName());
-	/* Table unique id*/
-	private String id;
 	/*Type of sample*/
 	private StatDataTableType type = StatDataTableType.RANDOMIZED;
 	/* will contain the table of frequencies */
@@ -38,8 +35,6 @@ public class StatDataTable<N extends Number,T> {
 	private  Double deltaError = 0.001;
 	/* Momentum for geometric Mean */
 	private int momentum = 2;
-	/* Flag that indicates if table has generated its statistics */
-	private boolean statistics = false;
 	
 	/*Arithmetic mean*/
 	private Double arithMean;
@@ -49,7 +44,10 @@ public class StatDataTable<N extends Number,T> {
 	private Double harmMean;
 	/*  geometric mean  */
     private Double geomMean = 0.0;
-	
+	/**/
+	/* */
+	private StatDataRowGenerator<N,T> rowGenerator;
+	 
 	
     
 	/* Math computation*/
@@ -84,25 +82,6 @@ public class StatDataTable<N extends Number,T> {
 
 
 
-
-
-
-
-
-	public String getId() {
-		return id;
-	}
-
-
-
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-
-
-
 	public SortedMap<N, StatDataTableRow<N,T>> getDataTable() {
 		return dataTable;
 	}
@@ -130,24 +109,6 @@ public class StatDataTable<N extends Number,T> {
 	public void setDeltaError(Double deltaError) {
 		this.deltaError = deltaError;
 	}
-
-
-
-
-
-	public boolean isStatistics() {
-		return statistics;
-	}
-
-
-
-
-
-	public void setStatistics(boolean statistics) {
-		this.statistics = statistics;
-	}
-
-
 
 
 
@@ -232,6 +193,20 @@ public class StatDataTable<N extends Number,T> {
 
 
 
+	public StatDataRowGenerator<N, T> getRowGenerator() {
+		return rowGenerator;
+	}
+
+
+
+
+	public void setRowGenerator(StatDataRowGenerator<N, T> rowGenerator) {
+		this.rowGenerator = rowGenerator;
+	}
+
+
+
+
 	/**
 	 * Computes all statistic parameters, aMean, Quadratic mean,.
 	 */
@@ -259,9 +234,10 @@ public class StatDataTable<N extends Number,T> {
     		
     		mXGH =  stdMath.computeMean(dataSet);
     	   */
-    		statistics = true;
+    		isComputed = true;
     		return 0;
         }catch(Exception ex) {
+        	log.debug("Exception computing table statistics"+ ex.getLocalizedMessage());
         	ex.printStackTrace();
     
         }

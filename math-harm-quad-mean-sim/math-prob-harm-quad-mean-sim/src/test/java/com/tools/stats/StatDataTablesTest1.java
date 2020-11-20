@@ -3,8 +3,8 @@ package com.tools.stats;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.tools.stats.StatDataGenerator;
 import com.tools.stats.StatDataTable;
+import com.tools.stats.generator.StatDataTableGenerator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -41,7 +41,7 @@ public class StatDataTablesTest1
     {
          List<StatDataTable<Double,String>> dataTablesList = null;
     	
-    	StatDataGenerator<Double> gsd = new StatDataGenerator<Double>();
+    	StatDataTableGenerator<Double,Double> gsd = new StatDataTableGenerator<Double,Double>();
     	int status = 1;
     	long start, end;
     	gsd.setLengthOfLists(5);

@@ -6,6 +6,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.tools.stats.generator.StatDataTableGenerator;
+import com.tools.stats.util.StatDataTableType;
+
 /**
  *
  *
@@ -15,7 +18,7 @@ public class ExperimentSimulator
     public static void main( String[] args )
     {
     	
-    	StatDataGenerator<Double> generator = new StatDataGenerator<Double>();
+    	StatDataTableGenerator<Double,Double> generator = new StatDataTableGenerator<Double,Double>();
     	StatDataExperiment<Double,Double> experiment = new StatDataExperiment<Double,Double>();
     
     	int status = 1;
@@ -59,8 +62,9 @@ public class ExperimentSimulator
     	
         	/*Compute statistical values */
     		experiment.setAllStatDataTableMomentum(2);
-    		experiment.computeAllStatDataTable();
-    		
+    		status = experiment.computeStats();
+    		log.debug(" Statistics  Generated with status "+ status);
+         		
     		
     		
     		
