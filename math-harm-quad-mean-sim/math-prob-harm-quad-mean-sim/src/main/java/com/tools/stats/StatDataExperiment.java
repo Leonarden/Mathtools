@@ -185,6 +185,48 @@ public class StatDataExperiment<N extends Number,T> extends AbstractStatData<N,T
 	}
 	/**
 	 * 
+	 * @param indexes
+	 * @return
+	 * @throws Exception
+	 */
+	public int normalizeDataTables(List<?> indexes) throws Exception {
+		StatDataTable<N,T> ndt = null;
+		String tId;
+		int cted = 0;
+		try {
+		for(Object i:indexes) {
+			if(i instanceof Integer)
+				ndt = this.dataTables.get((Integer)i);
+			else if(i instanceof String)
+				ndt = this.getStatDataTable((String) i);
+			else
+				throw new Exception("Table not found");
+			
+			tId = ndt.getId();
+			
+			ndt = ndt.createNormalized();
+			tId = tId + "-NORMALIZED";
+			ndt.setType(StatDataTableType.NORMALIZED);
+			ndt.setId(tId);
+			
+			this.dataTables.add(ndt);
+			
+			cted++;
+		}
+		
+		
+		}catch(Exception ex) {
+			log.debug("Exception normalizing tables :" + ex.getLocalizedMessage());
+			ex.printStackTrace();
+			cted=-1;
+		}
+		
+		return cted;
+		
+	}
+	
+	/**
+	 * 
 	 */
 	public int computeStatDataTable(int index) throws Exception{
 		int status = 0;

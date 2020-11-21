@@ -358,7 +358,31 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 		return dtList;
 		
 	}
-	
+	public StatDataTable<N,T> createNormalized() throws Exception{
+		StatDataTable dataTNorm = null;
+		List<N> normvs = null;
+		try {
+			if(this.momentum<=2) 
+			statCalc = new StandardMath();
+			else
+				statCalc = new GeometricMath(this.momentum);
+			
+			normvs = statCalc.normalize((List)this.getDataTableValues());
+			
+			if(normvs.size()>0) {
+				dataTNorm = new StatDataTable<N,T>();
+				dataTNorm.setDataTableValues(normvs);
+			}
+			
+			
+			
+		}catch(Exception ex) {
+			
+			log.debug("StatDataTable exception normalizing table: " + ex.getLocalizedMessage());
+			ex.printStackTrace();
+		}
+		return dataTNorm;
+	}
 	/**
 	 * 
 	 * @param value

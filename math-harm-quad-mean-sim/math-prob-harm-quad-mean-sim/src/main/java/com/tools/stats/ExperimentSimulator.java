@@ -1,7 +1,10 @@
 package com.tools.stats;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,17 +56,26 @@ public class ExperimentSimulator
     		
     		List<StatDataTable<Double,Double>> dataTables = experiment.getDataTables();
     		
-    		List<String> ids = new ArrayList<String>();
+    		Set<String> ids = new HashSet<String>();
     		for(int i=0;i<dataTables.size();i++)
     			ids.add(dataTables.get(i).getId());
     		
+    		List<String> idls = new LinkedList<String>(ids);
+    		
+    		
     		/*Mixing data from all existing tables */
-    		status = experiment.createFromDataTables(ids, null, StatDataTableType.MIXED);
+    		status = experiment.createFromDataTables(idls, null, StatDataTableType.MIXED);
     	
-        	/*Compute statistical values */
+        	
+    		/*Normalizing tables N0,1*/
+    		status = experiment.normalizeDataTables(idls);
+    		log.debug(" Tables normalized  with status : "+ status);
+         	
+    		
+    		/*Compute statistical values */
     		experiment.setAllStatDataTableMomentum(2);
     		status = experiment.computeStats();
-    		log.debug(" Statistics  Generated with status "+ status);
+    		log.debug(" Statistics  Generated with status : "+ status);
          		
     		
     		

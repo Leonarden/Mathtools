@@ -30,7 +30,7 @@ private double pow;
 				throw new Exception("Incorrect POW value (must be >=1 : "+ pow );
 			for(int i=0;i<data.size();i++) {
 				
-				vals[i] = data.get(i).doubleValue();
+    			vals[i] = data.get(i).doubleValue();
 				cvalue = cvalue + Math.pow( vals[i],this.pow);
 					
 			}
@@ -53,8 +53,20 @@ private double pow;
 		
 	}
 
+	
+	
 	@Override
 	public Double computeHarmonicMean(List<Double> data) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Double computeSTDev(List<Double> data) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<Double> normalize(List<Double> data) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,6 +1,10 @@
 package com.tools.stats.compute;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.commons.math3.stat.StatUtils;
 import org.apache.commons.math3.stat.descriptive.moment.*;
 import org.apache.commons.math3.stat.descriptive.rank.Median;
 public class StandardMath extends AbstractMath {
@@ -52,6 +56,51 @@ public class StandardMath extends AbstractMath {
 	    	 ex.printStackTrace();
 	     }
 		return hmresult;
+	}
+	public Double computeSTDev(List<Double> data) throws Exception {
+		StandardDeviation sd = new StandardDeviation();
+		double[] vals = null;
+		Double mresult = null;
+		try {
+			vals = new double[data.size()];
+			for(int i=0;i<data.size();i++) {
+				vals[i] = data.get(i).doubleValue();
+			}
+			sd.setData(vals);
+			mresult = sd.evaluate();
+		
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return mresult;
+		
+		
+	}
+	
+	public List<Double> normalize(List<Double> data) throws Exception {
+		double[] vals = null;
+		List<Double> norm = null;
+		try {
+			vals = new double[data.size()];
+			for(int i=0;i<data.size();i++) {
+				vals[i] = data.get(i).doubleValue();
+			}
+			vals = StatUtils.normalize(vals);
+		    norm = new LinkedList<Double>();
+			for(double d:vals) {
+				norm.add(Double.valueOf(d));
+			}
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		
+		}
+		
+		return norm;
+	
+
+		
 	}
 	public Double computeMedian(List dataSet) throws Exception {
  		//median
