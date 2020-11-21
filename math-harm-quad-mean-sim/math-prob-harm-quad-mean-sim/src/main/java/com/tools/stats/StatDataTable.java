@@ -47,6 +47,7 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 	/*  geometric mean  */
     private Double geomMean = 0.0;
 	/**/
+    private Double standardDev = 0.0;
 	/* */
 	private StatDataRowGenerator<N,T> rowGenerator;
 	 
@@ -190,6 +191,20 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 
 
 
+	public Double getStandardDev() {
+		return standardDev;
+	}
+
+
+
+
+	public void setStandardDev(Double standardDev) {
+		this.standardDev = standardDev;
+	}
+
+
+
+
 	public StatDataRowGenerator<N, T> getRowGenerator() {
 		return rowGenerator;
 	}
@@ -222,10 +237,17 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
     		this.arithMean = statCalc.computeMean((List<Double>) dataSet);
     		//Harmonic mean
     		this.harmMean = statCalc.computeHarmonicMean((List<Double>) dataSet);
-    		//Geometric mean
+            //Standard deviation
+    		if(this.momentum<=2)
+    		this.standardDev = statCalc.computeSTDev((List<Double>) dataSet);
     		
-    		statCalc = new GeometricMath(this.momentum); 
-    		this.geomMean = statCalc.computeMean((List<Double>) dataSet);
+    		//Geometric mean
+       		statCalc = new GeometricMath(this.momentum); 
+    		
+       		this.geomMean = statCalc.computeMean((List<Double>) dataSet);
+    		if(this.momentum>2)
+    			this.standardDev = statCalc.computeSTDev((List<Double>) dataSet);
+    	    		
     		/*
     		dataSet = new ArrayList<Double>();
     		dataSet.add(mH); dataSet.add(mG);

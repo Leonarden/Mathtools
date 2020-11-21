@@ -73,7 +73,7 @@ public class ExperimentSimulator
          	
     		
     		/*Compute statistical values */
-    		experiment.setAllStatDataTableMomentum(2);
+    		experiment.setAllStatDataTableMomentum(2);  //M:2 for geometric mean and standard deviation
     		status = experiment.computeStats();
     		log.debug(" Statistics  Generated with status : "+ status);
          		
@@ -104,7 +104,10 @@ public class ExperimentSimulator
     			System.out.println(" Median:" + sdt.getMedian());
     			System.out.println(" Arith. Mean:" + sdt.getArithMean());
     			System.out.println(" Harmonic. Mean:" + sdt.getHarmMean());
-    			System.out.println(" Geometric. Mean:" + sdt.getGeomMean());
+    			System.out.println(" Geometric Mean:" + sdt.getGeomMean());
+   
+    			System.out.println(" Standard Deviation:" + sdt.getStandardDev());
+    			
     			System.out.println(" Momentum:" + sdt.getMomentum());
     			
     			System.out.println("***********************************");
