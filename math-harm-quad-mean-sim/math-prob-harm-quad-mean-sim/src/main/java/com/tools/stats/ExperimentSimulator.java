@@ -1,6 +1,7 @@
 package com.tools.stats;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,9 +45,9 @@ public class ExperimentSimulator
     		
     		experiment.setGenerator(generator);
     		/* Generate random tables */
-    		status = experiment.generateRandomDataTables();
+    		//status = experiment.generateRandomDataTables();
     		
-    		log.debug("Random Tables Generated with status "+ status);
+    		//log.debug("Random Tables Generated with status "+ status);
 	        /* Generate tables from file */
     		
     		status = experiment.generateDataTablesFromFile(filename);
@@ -64,21 +65,33 @@ public class ExperimentSimulator
     		
     		
     		/*Mixing data from all existing tables */
-    		status = experiment.createFromDataTables(idls, null, StatDataTableType.MIXED);
-    	
-        	
+    		status = experiment.createFromDataTables(idls, null, StatDataTableType.MIXED);	
+    		
+    		
     		/*Normalizing tables N0,1*/
-    		status = experiment.normalizeDataTables(idls);
+    /*		status = experiment.normalizeDataTables(idls);
     		log.debug(" Tables normalized  with status : "+ status);
-         	
+      */   	
     		
     		/*Compute statistical values */
     		experiment.setAllStatDataTableMomentum(2);  //M:2 for geometric mean and standard deviation
     		status = experiment.computeStats();
     		log.debug(" Statistics  Generated with status : "+ status);
          		
-    		
-    		
+    		/*Contrasting list(0) against list(1) and List(2)
+     	    * 
+     	    */
+         	List<StatDataTable<Double,Double>> source = Arrays.asList(experiment.getStatDataTable(0));
+         	List<StatDataTable<Double,Double>> contrasts = Arrays.asList(experiment.getStatDataTable(1),experiment.getStatDataTable(2)); 	
+         	List<String> contrastids =experiment.contrastTables(source, contrasts);
+         	
+     		log.debug("Contrasted tables, result :" + contrastids.toArray());
+     		
+     		/*Compute statistical values */
+    		experiment.setAllStatDataTableMomentum(2);  //M:2 for geometric mean and standard deviation
+    		status = experiment.computeStats();
+    		log.debug(" Statistics  Generated with status : "+ status);
+         	
     		
     		
     		for(int i=0;i<dataTables.size();i++) {
@@ -96,7 +109,7 @@ public class ExperimentSimulator
     			System.out.println("Table Rows:");
     		    for(StatDataRow row: sdt.getDataTable().values()) {
     		    	System.out.println("Id:" + row.getId() + " Value: "+ row.getValue() + " AbsoluteFreq: " + row.getAbsoluteFreq() +
-    		    			" RelativeFreq: " + row.getRelativeFreq() + " CumulativeAbsFreq: " + row.getCumulativeFreq() + " CumulativeRelativeFreq : "+ row.getCumulativeRelativeFreq());
+    		    			" RelativeFreq: " + row.getRelativeFreq() + " CumulativeAbsFreq: " + row.getCumulativeFreq() + " CumulativeRelativeFreq : "+ row.getCumulativeRelativeFreq()+ " ROWTYPE:"+ row.getRtype());
     		    } 	
     			System.out.println("---------------------------------------");
     		

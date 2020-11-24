@@ -83,7 +83,7 @@ public class StatDataGeneratorUtil<N extends Number> {
 	 * 
 	 */
 	public String generateRandomId(int prefix,String separator) {
-		Random rnd = new Random(prefix);
+		Random rnd = new Random((int)(1000*(prefix*Math.random())));
 		String c = "" + prefix +separator;
 		long l = Math.abs(rnd.nextLong()%100000);
 		c = c +l;

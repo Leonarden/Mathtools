@@ -1,5 +1,6 @@
 package com.tools.stats;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.tools.stats.generator.StatDataTableGenerator;
+import com.tools.stats.util.StatDataRowType;
 import com.tools.stats.util.StatDataTableType;
 
 public class StatDataExperiment<N extends Number,T> extends AbstractStatData<N,T> {
@@ -127,7 +129,90 @@ public class StatDataExperiment<N extends Number,T> extends AbstractStatData<N,T
 		}
 		return s;
 	}
+	/**
+	 * Precondition: 
+	 * Each table has its statistics computed, 
+	 * algorith will contrast N source tables to the
+	 *  M contrast tables by creating new Normalized tables with composed ids that will be returned (in total NxM tables)
+	 * @param sources
+	 * @param contrast
+	 * @return List of tableIds of the new created tables
+	 * @throws Exception
+	 */
+	public List<String> contrastTables(List<StatDataTable<N, T>> sources, List<StatDataTable<N,T>> contrast)throws Exception {
+		List<String> contIds = new LinkedList<String>();
+		Double linearDelta = 0.0;
+		String contId = "";
+		StatDataTable result = null;
+		int status=0;
+		try {
+		for(int i=0;i<sources.size();i++) {
+			StatDataTable dtsource = sources.get(i);
+			Double mean = dtsource.getArithMean();
+			for(int j=0;j<contrast.size();j++) {
+				StatDataTable dtcon = contrast.get(j);
+				if(dtsource.getId().equalsIgnoreCase(dtcon.getId())) {
+				log.debug("Table source and contrast have same Id:"+ dtcon.getId());
+					continue;
+				}
+				Double meancont = dtcon.getArithMean();
+				linearDelta = Math.abs(mean - meancont); //abs?
+				List<Double> valuescontrast = dtcon.getDataTableValues();
+				//we add the new value
+				valuescontrast.add(linearDelta);
+				//copy values to a new table
+				result = new StatDataTable<N,T>();
+				
+				result.setDataTableValues(valuescontrast);
+				StatDataRow row = result.getDataTableRow(linearDelta);
+				row.setRtype(StatDataRowType.CONTRAST);
+				//see if error now
+				result.addDataTableRow(linearDelta, row);
+				//setting composed id-
+				contId = dtsource.getId()+ "-CONTRAST-"+ dtcon.getId();
+				
+				result.setId(contId);
+				status = result.computeStats();
+				log.debug("Contrast tables, computedstats for generated table with status: " + status);
+					
+				this.addStatDataTable(result);
+				//table normalization
+				
+				
+			 status =	this.normalizeDataTables(Arrays.asList(result.getId()));
+			if(status>0)	
+			log.debug("Normalized transformed data linearDelta: " + linearDelta);
+				
+			
+			
+			contIds.add(contId);
+			
+			}
+			
+			
+			
+		}
 	
+		status = 1;
+		
+		}catch(Exception ex) {
+			log.debug("ContrasTables exception ->"+ ex.getLocalizedMessage());
+			ex.printStackTrace();
+			contIds = null;
+		}
+		
+		return contIds;
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @param ids
+	 * @param tid
+	 * @param type
+	 * @return
+	 */
 	public int createFromDataTables(List<String> ids,String tid, StatDataTableType type) {
 		int status = -1;
 		List<StatDataTable> tfrom = new LinkedList<StatDataTable>();

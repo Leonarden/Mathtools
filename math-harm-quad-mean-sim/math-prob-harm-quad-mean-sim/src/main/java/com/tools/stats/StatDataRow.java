@@ -8,6 +8,8 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.tools.stats.util.StatDataRowType;
+
 /**
  * 
  * @author david
@@ -27,6 +29,8 @@ public class StatDataRow<N extends Number,T> extends AbstractStatData<N,T>{
 	
 	
 	private Integer index = 0;
+	/*type of row:*/
+    private StatDataRowType rtype = StatDataRowType.STANDARD;
 	/* if it's necessary store value, so that we will have key==value */
 	private N value = null;
 	/* number of elements contained in this part of sample and associated to key-value
@@ -111,6 +115,14 @@ public class StatDataRow<N extends Number,T> extends AbstractStatData<N,T>{
 	}
 	public void setV2XrelativeFreq(Double v2XrelativeFreq) {
 		this.v2XrelativeFreq = v2XrelativeFreq;
+	}
+	
+	
+	public StatDataRowType getRtype() {
+		return rtype;
+	}
+	public void setRtype(StatDataRowType rtype) {
+		this.rtype = rtype;
 	}
 	@Override
 	public int computeStats() throws Exception {
