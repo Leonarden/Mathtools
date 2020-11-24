@@ -104,7 +104,7 @@ public class StatDataTableGenerator<N extends Number,T> extends StatDataGenerato
 		for(int i=0;i<length;i++) {
 			tmp = getRandomTable(dataTables);
 			N d = getRandomValueFromTable(tmp);
-			nwTable.setDataTableValue(d);
+			nwTable.addDataTableValue(d);
 			log.debug("Added numeric value :" + d.toString());
 		}
 		
@@ -146,7 +146,7 @@ public class StatDataTableGenerator<N extends Number,T> extends StatDataGenerato
 			values = generateRandomValues(values);
 			
 			
-			data.setDataTableValues(values);
+			data.addDataTableValues(values);
 			
 			dataTables.add(data);
 		}
@@ -179,7 +179,7 @@ public class StatDataTableGenerator<N extends Number,T> extends StatDataGenerato
 			values = generateRandomValues(values);
 			
 			
-			data.setDataTableValues(values);
+			data.addDataTableValues(values);
 			
 			dataTables.add(data);
 		
@@ -244,7 +244,7 @@ public class StatDataTableGenerator<N extends Number,T> extends StatDataGenerato
 							tType = StatDataTableType.CONTROL;
 						dataTable.setId(tId);
 						dataTable.setType(tType);
-						dataTable.setDataTableValues(values);
+						dataTable.addDataTableValues(values);
 						dataTables.add(dataTable);
 					    ncreated++;
 					    endTable = 0;

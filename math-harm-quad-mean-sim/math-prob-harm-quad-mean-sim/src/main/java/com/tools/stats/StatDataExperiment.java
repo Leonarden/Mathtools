@@ -130,8 +130,7 @@ public class StatDataExperiment<N extends Number,T> extends AbstractStatData<N,T
 		return s;
 	}
 	/**
-	 * Precondition: 
-	 * Each table has its statistics computed, 
+	 
 	 * algorith will contrast N source tables to the
 	 *  M contrast tables by creating new Normalized tables with composed ids that will be returned (in total NxM tables)
 	 * @param sources
@@ -148,6 +147,7 @@ public class StatDataExperiment<N extends Number,T> extends AbstractStatData<N,T
 		try {
 		for(int i=0;i<sources.size();i++) {
 			StatDataTable dtsource = sources.get(i);
+			dtsource.computeStats();
 			Double mean = dtsource.getArithMean();
 			for(int j=0;j<contrast.size();j++) {
 				StatDataTable dtcon = contrast.get(j);
@@ -155,34 +155,32 @@ public class StatDataExperiment<N extends Number,T> extends AbstractStatData<N,T
 				log.debug("Table source and contrast have same Id:"+ dtcon.getId());
 					continue;
 				}
+				dtcon.computeStats();
 				Double meancont = dtcon.getArithMean();
 				linearDelta = Math.abs(mean - meancont); //abs?
 				List<Double> valuescontrast = dtcon.getDataTableValues();
-				//we add the new value
-				valuescontrast.add(linearDelta);
 				//copy values to a new table
 				result = new StatDataTable<N,T>();
 				
-				result.setDataTableValues(valuescontrast);
+				valuescontrast=result.addDataTableValues(valuescontrast);
+			    linearDelta = (Double) result.addDataTableValue(linearDelta);
 				StatDataRow row = result.getDataTableRow(linearDelta);
 				row.setRtype(StatDataRowType.CONTRAST);
 				//see if error now
-				result.addDataTableRow(linearDelta, row);
+				//result.addDataTableRow(linearDelta, row);
 				//setting composed id-
 				contId = dtsource.getId()+ "-CONTRAST-"+ dtcon.getId();
 				
 				result.setId(contId);
-				status = result.computeStats();
+				result.setType(StatDataTableType.CONTRAST);
+			    status = result.computeStats();
 				log.debug("Contrast tables, computedstats for generated table with status: " + status);
 					
 				this.addStatDataTable(result);
-				//table normalization
 				
 				
-			 status =	this.normalizeDataTables(Arrays.asList(result.getId()));
-			if(status>0)	
-			log.debug("Normalized transformed data linearDelta: " + linearDelta);
-				
+			log.debug("added to values: linearDelta: " + linearDelta);
+			log.debug("Created table with ID: " + contId);	
 			
 			
 			contIds.add(contId);

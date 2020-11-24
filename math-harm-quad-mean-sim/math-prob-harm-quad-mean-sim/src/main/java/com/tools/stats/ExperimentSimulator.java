@@ -68,10 +68,7 @@ public class ExperimentSimulator
     		status = experiment.createFromDataTables(idls, null, StatDataTableType.MIXED);	
     		
     		
-    		/*Normalizing tables N0,1*/
-    /*		status = experiment.normalizeDataTables(idls);
-    		log.debug(" Tables normalized  with status : "+ status);
-      */   	
+    		
     		
     		/*Compute statistical values */
     		experiment.setAllStatDataTableMomentum(2);  //M:2 for geometric mean and standard deviation
@@ -87,6 +84,12 @@ public class ExperimentSimulator
          	
      		log.debug("Contrasted tables, result :" + contrastids.toArray());
      		
+     		/*Normalizing CONTRASTED tables N0,1*/
+     	    	status = experiment.normalizeDataTables(contrastids);
+     	    	log.debug(" Tables normalized  with status : "+ status);
+     	         	
+     		
+     		
      		/*Compute statistical values */
     		experiment.setAllStatDataTableMomentum(2);  //M:2 for geometric mean and standard deviation
     		status = experiment.computeStats();
@@ -96,7 +99,7 @@ public class ExperimentSimulator
     		
     		for(int i=0;i<dataTables.size();i++) {
     			StatDataTable<Double,Double> sdt =  dataTables.get(i);
-    			System.out.println("Table #: " + i + "ID: "+ sdt.getId() +" of type:"+ sdt.getType());
+    			System.out.println("Table#: " + i + " ID: "+ sdt.getId() +" of type:"+ sdt.getType());
     			System.out.println("");
     			List<Double> values = sdt.getDataTableValues();
     			System.out.println("Table values:");

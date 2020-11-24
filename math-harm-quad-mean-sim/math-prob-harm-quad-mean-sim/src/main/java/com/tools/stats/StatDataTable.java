@@ -1,5 +1,6 @@
 package com.tools.stats;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedMap;
@@ -283,9 +284,9 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 					}
 					
 				});
-			
+			n=1;
 		}catch(Exception ex) {
-			
+			ex.printStackTrace();
 		}
 		
 		return n;
@@ -393,7 +394,7 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 			
 			if(normvs.size()>0) {
 				dataTNorm = new StatDataTable<N,T>();
-				dataTNorm.setDataTableValues(normvs);
+				dataTNorm.addDataTableValues(normvs);
 			}
 			
 			
@@ -405,17 +406,7 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
 		}
 		return dataTNorm;
 	}
-	/**
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public StatDataRow<N,T> getDataTableRow(N value)  {
-		
-		StatDataRow<N,T> sdr =this.dataTable.get(value);
-		//check if value is inside record sdr.getValue()==value
-		return sdr;
-	}
+
 	
 	
 /**
@@ -423,19 +414,21 @@ public class StatDataTable<N extends Number,T> extends AbstractStatData<N,T>{
  * @param values
  * @throws Exception
  */
-	public void setDataTableValues(List<?> values) throws Exception {
+	public List<N> addDataTableValues(List<?> values) throws Exception {
 		N d;
+		List<N> val = new ArrayList<N>();
 		for(int i=0;i<values.size();i++) {
 			d = (N)values.get(i);
-			setDataTableValue(d);
+			d = addDataTableValue(d);
+			val.add(d);
 		}
-		
+		return val;
 	}
 /**
  * 
  * @param d
  */
-public void setDataTableValue(N d) {
+public N addDataTableValue(N d) {
 	StatDataRow<N,T> sdr = null;
 	StatDataUtil sdu = new StatDataUtil();
 	Double nme = 0.0; //number minus tolerated error
@@ -478,11 +471,12 @@ public void setDataTableValue(N d) {
 	}
 	
     dataTable.put(d, sdr);
-	
+	return d;
 	}catch(Exception ex) {
 		log.debug("Exception adding Value to table: " + ex.getLocalizedMessage());
 		ex.printStackTrace();
 	}
+	return null;
 }
 	
 
