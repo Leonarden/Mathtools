@@ -1,5 +1,9 @@
 package com.tools.stats.util;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Random;
 
@@ -56,8 +60,8 @@ public class StatDataGeneratorUtil<N extends Number> {
 	public String readTableId(String t) {
 		
 		String id = null;
-		if(t.lastIndexOf("ID:")>=0) {
-			id = t.substring(t.lastIndexOf("ID:")+"ID:".length(), t.length());
+		if(t.indexOf("Id:")>=0) {
+			id = t.substring(t.lastIndexOf("Id:")+"Id:".length(), t.length());
 		}
 		
 		return id;
@@ -90,6 +94,56 @@ public class StatDataGeneratorUtil<N extends Number> {
 		return c;
 	}
 	
-
+	/**
+	 * Generates a random gaussian numbers CSV file 
+	 */
+	
+	public int generateRandomCSV(String filename,List<String> ids, List<String> type,
+			int linelength) throws Exception{
+		
+		BufferedWriter bw = null;
+		Random rand = null;
+		int i = 0;
+		
+		try {
+	     File f = new File(filename);
+         if(f!=null) {
+        	 bw = new BufferedWriter(new FileWriter(f));
+        	 
+        	 while(i<ids.size()) {
+        		 String line = "";
+        		 int seed = (int) Math.ceil(Math.random()*(System.currentTimeMillis()-1000));
+     			rand = new Random(seed);
+        		 for(int j=0;j<linelength;j++) {
+        			 double d = rand.nextGaussian();
+        			 line = line + d + ",";
+        		 }
+        		 line = line + "Id:" + ids.get(i) + ",Type:" + type.get(i) +"";
+        		 bw.write(line);
+        		 bw.newLine();
+        		 i++;
+        	 }
+        		
+        		 
+        	 }
+        	 
+         }catch(Exception ex) {
+        	 log.debug("Exception generating CSV file"+ ex.getLocalizedMessage());
+        	 ex.printStackTrace();
+        	 i = -1;
+         }
+		 finally {
+				bw.close();
+			}
+		return i;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 
 }
